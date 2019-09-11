@@ -10,6 +10,21 @@
   </head>
 
   <body>
+    <style>
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: gray;
+        color: white;
+        text-align: center;
+      }
+    </style>
+
+  <div class="footer">
+    <a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>"><h4>Validate this page!</h4></a>
+  </div>
     <%= yield %>
   </body>
 </html>
