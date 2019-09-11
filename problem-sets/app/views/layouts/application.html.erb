@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <style>
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: gray;
+        color: white;
+        text-align: center;
+      }
+    </style>
+
     <title>ProblemSets</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,6 +22,10 @@
   </head>
 
   <body>
+
+  <div class="footer">
+    <a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>"><h4>Validate this page!</h4></a>
+  </div>
     <%= yield %>
   </body>
 </html>
