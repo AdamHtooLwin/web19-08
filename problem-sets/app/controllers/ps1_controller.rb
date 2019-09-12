@@ -10,10 +10,9 @@ class Ps1Controller < ApplicationController
   def scrapper
     require 'open-uri'
     doc = Nokogiri::HTML(open('http://ait.ac.th'))
-    @titles = doc.css('article').css('h3').css('a').css('span').text
-    @links = doc.css('article').css('h3').css('a').attribute('href').value
-    @images = doc.css('article').css('h3').css('a').a
-
-
+    @articles = doc.css('article')
+    @titles = doc.css('article').css('h3').css('span')
+    @links = doc.css('article').css('h3').css('a')
+    @images = doc.css('article').css('figure').css('a').css('img')
   end
 end
