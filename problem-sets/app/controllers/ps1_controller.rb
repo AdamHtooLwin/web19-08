@@ -3,6 +3,8 @@ class Ps1Controller < ApplicationController
   end
 
   def divide_by_zero
+    logger.debug('about to divide by zero')
+    a=1/0
   end
 
   def scrapper
