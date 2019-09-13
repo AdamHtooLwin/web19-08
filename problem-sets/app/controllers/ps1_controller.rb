@@ -1,4 +1,13 @@
 class Ps1Controller < ApplicationController
+  rescue_from ZeroDivisionError do |exception|
+    puts exception.backtrace
+
+    @error = exception
+
+    render "ps1/divide_by_zero"
+
+  end
+
   def index
   end
 
