@@ -1,3 +1,8 @@
 <h1>DIVIDE BY ZERO!</h1>
+<p>We used logger.debug method to write our log to the log file production.log
+  First, we caught the specific exception (ZeroDivisionError) using rescue_from.
+  Then we passed the error exception to the divide_by_zero view as an instance variable and printed the backtrace attribute of it on the page.
+</p>
+<hr>
 
 <%= @error.backtrace %>
