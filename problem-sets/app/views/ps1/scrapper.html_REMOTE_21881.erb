@@ -1,0 +1,16 @@
+<html lang="en">
+<body>
+<h1>AIT News Scraper</h1><hr>
+<% @articles.each do |article| %>
+  <h2><%= article.css('h3').css('span').text %></h2>
+  <a href="<%= article.css('h3').css('a').attribute('href') %>"><br>
+  <img src="<%= article.css('figure').css('a').css('img').attribute('src') %>"><br>
+  <%= article.css('h3').css('span').text %>
+  </a>
+  <br>
+  <br>
+  <br>
+<% end %>
+<br style="line-height:10">
+</body>
+</html>
