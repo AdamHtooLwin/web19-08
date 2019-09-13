@@ -1,7 +1,6 @@
 <html lang="en">
 <body>
-<h1>Ps1#scrapper</h1>
-<p>Find me in app/views/ps1/scrapper.html.erb</p>
+<h1>AIT News Scraper</h1><hr>
 <% @articles.each do |article| %>
   <h2><%= article.css('h3').css('span').text %></h2>
   <a href="<%= article.css('h3').css('a').attribute('href') %>"><br>
