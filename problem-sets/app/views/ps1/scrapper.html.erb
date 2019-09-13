@@ -1,11 +1,14 @@
 <html lang="en">
+<head>
+  <title>Web Scrapper</title>
+</head>
 <body>
 <h1>Ps1#scrapper</h1>
 <p>Find me in app/views/ps1/scrapper.html.erb</p>
 <% @articles.each do |article| %>
   <h2><%= article.css('h3').css('span').text %></h2>
   <a href="<%= article.css('h3').css('a').attribute('href') %>"><br>
-  <img src="<%= article.css('figure').css('a').css('img').attribute('src') %>"><br>
+  <img src="<%= article.css('figure').css('a').css('img').attribute('src') %>" alt="article.css('h3').css('span').text"><br>
   <%= article.css('h3').css('span').text %>
   </a>
   <br>
