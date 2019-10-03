@@ -1,2 +1,16 @@
-<h1>Ps2#index</h1>
-<p>Find me in app/views/ps2/index.html.erb</p>
+<h1>Index</h1>
+<hr>
+<%= link_to "Quotations", ps2_quotation_path %><br>
+
+<h2>Stuff
+</h2>
+<p>
+<h4>How does Active Record use an SQL sequence object for the ID field?</h4>
+
+  Rails <strong>somehow</strong> generates a table with the id field as a sequential integer. This is a surrogate key.
+  NEXTVAL is a function to get the next value from a sequence.
+
+  Sequence is an object which returns ever-increasing numbers, different for each call, regardless of transactions etc.
+
+  Each time you call NEXTVAL, you get a different number.
+</p>

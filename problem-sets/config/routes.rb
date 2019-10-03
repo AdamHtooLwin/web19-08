@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   get 'ps2/index'
+  get 'ps2/quotation'
+  post 'ps2/quotation'
+
   get 'ps1/index'
   get 'ps1/divide_by_zero'
   get 'ps1/scrapper'
