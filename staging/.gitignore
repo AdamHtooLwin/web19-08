@@ -1,0 +1,4 @@
+# Add Vagrant stuff
+# Only Vagrantfile should be committed
+ubuntu-bionic-18.04-cloudimg-console.log
+/.vagrant/
