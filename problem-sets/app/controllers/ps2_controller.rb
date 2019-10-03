@@ -28,6 +28,10 @@ class Ps2Controller < ApplicationController
     end
     if params[:sort_by] == "date"
       @quotations = Quotation.order(:created_at)
+    elsif params[:search]
+      search_term = "%" + params[:search] + "%"
+      puts search_term
+      @quotations = Quotation.where("lower(quote) like ? OR lower(author_name) like ?", search_term.downcase, search_term.downcase)
     else
       @quotations = Quotation.order(:category)
     end

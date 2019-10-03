@@ -12,6 +12,17 @@
 <% end %>
 <hr/>
 
+<h4>Search</h4>
+<%= form_with local: true, :url => { :action => :quotation } do |form| %>
+  <div class="form_row">
+    <%= form.label "Search" %>
+    <%= form.text_field :search, :size => 20, :maxlength => 40 %>
+  </div>
+
+  <%= form.submit "Search" %>
+<% end %>
+<hr>
+
 <h3>New quotation</h3>
 <%= form_with model: @quotation, local: true, :url => { :action => :quotation } do |form| %>
   <% @quotation.errors.full_messages.each do |message| %>
