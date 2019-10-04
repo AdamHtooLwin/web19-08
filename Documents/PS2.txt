@@ -1,0 +1,25 @@
+Q2)
+In our view we used the following line to implement the dropdown of the existing category.
+<%= form.select :category, Quotation.pluck(:category).uniq, include_blank: true %>
+
+New category was possible only with form_with as it allows new fields other than corresponding fields in our model to be used. We passed the new_category in the params from view to controller and used it to create new quotation whenever it was supplied. Otherwise, we just chose the one provided by the dropdown.
+
+Q3)
+We made our search case insensitive by using the following line of code:
+@quotations = Quotation.where("lower(quote) like ? OR lower(author_name) like ?", search_term.downcase, search_term.downcase).where.not(id: killed_ids)
+
+
+Q4)
+
+
+
+
+Q5)
+We used the send_data method to export the file to the client's computer
+
+Q6)
+First we wrote the file in public folder of Rails.root. And then parsed the xml elements using Nokogiri. Then, we created new Quotations for each dataset of xml.
+
+
+
+

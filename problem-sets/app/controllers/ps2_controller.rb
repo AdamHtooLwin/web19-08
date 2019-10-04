@@ -12,7 +12,6 @@ class Ps2Controller < ApplicationController
       cookies[:killed] = "#{killed_id}"
     end
 
-    puts cookies[:killed]
 
     redirect_to ps2_quotation_path
   end
@@ -39,7 +38,6 @@ class Ps2Controller < ApplicationController
         @quotation = Quotation.new( :author_name => params[:quotation][:author_name], :quote => params[:quotation][:quote] )
         @quotation.category = params[:quotation][:new_category]
         if @quotation.save
-          puts "HELLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
           flash[:notice] = 'Quotation was successfully created.'
           @quotation = Quotation.new
         end
@@ -59,7 +57,6 @@ class Ps2Controller < ApplicationController
       @quotations = Quotation.order(:created_at).where.not(id: killed_ids)
     elsif params[:search]
       search_term = "%" + params[:search] + "%"
-      puts search_term
       @quotations = Quotation.where("lower(quote) like ? OR lower(author_name) like ?", search_term.downcase, search_term.downcase).where.not(id: killed_ids)
     else
       @quotations = Quotation.order(:category).where.not(id: killed_ids)
@@ -79,7 +76,6 @@ class Ps2Controller < ApplicationController
   end
 
   def import_xml
-    puts "Hello from import_xml"
     uploaded_file = params[:file]
     File.open(Rails.root.join('public', uploaded_file.original_filename), 'wb') do |file|
       file.write(uploaded_file.read)
@@ -90,7 +86,6 @@ class Ps2Controller < ApplicationController
       author_name = object.css('author-name').inner_text
       category = object.css('category').inner_text
       quote = object.css('quote').inner_text
-      puts author_name
       @quotation = Quotation.new( :author_name => author_name, :quote => quote, :category => category )
       @quotation.save
     end
