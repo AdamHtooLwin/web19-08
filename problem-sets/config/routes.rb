@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get 'ps2/index'
   get 'ps2/quotation'
   post 'ps2/quotation'
+  post 'ps2/kill_quotation'
+  post 'ps2/reset_kills'
 
   get 'ps1/index'
   get 'ps1/divide_by_zero'

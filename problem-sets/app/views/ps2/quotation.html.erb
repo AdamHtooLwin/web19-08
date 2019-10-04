@@ -2,6 +2,7 @@
 <ul>
   <% for quotation in @quotations %>
     <li><%= h quotation.author_name %>: <%= h quotation.quote %></li>
+    <%= link_to 'Kill', {:controller => 'ps2', :action => 'kill_quotation', :params => {:killed => quotation.id}}, {:method => :post } %>
   <% end %>
 </ul>
 <br/>
@@ -11,6 +12,7 @@
   <%= link_to "Sort by date", :action => :quotation, :sort_by => :date %>
 <% end %>
 <hr/>
+<%= link_to 'Erase Personalization', {:controller => 'ps2', :action => 'reset_kills'} , {:method => :post } %>
 
 <h4>Search</h4>
 <%= form_with local: true, :url => { :action => :quotation } do |form| %>
