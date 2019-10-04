@@ -10,8 +10,11 @@ We made our search case insensitive by using the following line of code:
 
 
 Q4)
+Everytime a user 'kills' a quote, a param containing the ID of the killed quote in param['killed'] is sent to the kill_quotation action and in this action, it is appended to the a cookie named 'killed' if it exists. The killed cookie is stored as a string of IDs separated by a comma.
 
+Therefore in the quotation controller, we first split the string into an array of IDs and then pass that id into the query for quotations to exclude the quotes with IDs matching those in the array. if the cookie is empty, it will just query with an empty array so all the quotes will be returned.
 
+As for erasing the personalization, the action reset_kills will simply delete the cookie 'killed' if it exists and redirect to the quotation view.
 
 
 Q5)
@@ -20,6 +23,8 @@ We used the send_data method to export the file to the client's computer
 Q6)
 First we wrote the file in public folder of Rails.root. And then parsed the xml elements using Nokogiri. Then, we created new Quotations for each dataset of xml.
 
-
+Q7-Q12
+Please refer to this link.
+https://docs.google.com/document/d/1TrKb5pGrvcvhDQEPvD3Jk3w9OFYMCselmTPlOQ1bZLE/edit?usp=sharing
 
 
