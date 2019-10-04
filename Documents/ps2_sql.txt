@@ -1,0 +1,217 @@
+Question 7
+------------------------
+create table my_stocks (
+	symbol
+	varchar(20) not null,
+	n_shares
+	integer not null,
+	date_acquired
+	date not null
+);
+
+copy my_stocks from '/home/adam/my_stocks.txt';
+
+select * from my_stocks;
+
+symbol | n_shares | date_acquired 
+--------+----------+---------------
+ DELL   |    12032 | 1997-09-03
+ DB     |     3450 | 1999-02-21
+ DIS    |     6590 | 2001-04-30
+ BAC    |     2211 | 2000-01-13
+ MCD    |     9900 | 2001-11-18
+(5 rows)
+
+Question 8
+---------------
+create table newly_acquired_stocks (
+	symbol varchar(20) not null,
+	n_shares integer not null,
+	date_acquired date not null
+);
+
+create table stock_prices as select symbol, now() as quote_date, 31.415 as price from my_stocks;
+
+Table "public.stock_prices"
+   Column   |           Type           | Collation | Nullable | Default 
+------------+--------------------------+-----------+----------+---------
+ symbol     | character varying(20)    |           |          | 
+ quote_date | timestamp with time zone |           |          | 
+ price      | numeric                  |           |          | 
+
+select * from stock_prices ;
+
+ symbol |          quote_date           | price  
+--------+-------------------------------+--------
+ DELL   | 2019-10-04 18:48:43.290128+07 | 31.415
+ DB     | 2019-10-04 18:48:43.290128+07 | 31.415
+ DIS    | 2019-10-04 18:48:43.290128+07 | 31.415
+ BAC    | 2019-10-04 18:48:43.290128+07 | 31.415
+ MCD    | 2019-10-04 18:48:43.290128+07 | 31.415
+(5 rows)
+
+create table newly_acquired_stocks (
+	symbol
+	varchar(20) not null,
+	n_shares
+	integer not null,
+	date_acquired
+	date not null
+);
+
+insert into newly_acquired_stocks 
+select * from my_stocks where symbol IN ('DELL','BAC','MCD');
+
+symbol | n_shares | date_acquired 
+--------+----------+---------------
+ DELL   |    12032 | 1997-09-03
+ BAC    |     2211 | 2000-01-13
+ MCD    |     9900 | 2001-11-18
+(3 rows)
+
+Question 9
+------------------
+select my_stocks.symbol, my_stocks.n_shares,stock_prices.price,my_stocks.n_shares * stock_prices.price as current_value from my_stocks join stock_prices on my_stocks.symbol=stock_prices.symbol; 
+
+ symbol | n_shares | price  | current_value 
+--------+----------+--------+---------------
+ DELL   |    12032 | 31.415 |    377985.280
+ DB     |     3450 | 31.415 |    108381.750
+ DIS    |     6590 | 31.415 |    207024.850
+ BAC    |     2211 | 31.415 |     69458.565
+ MCD    |     9900 | 31.415 |    311008.500
+
+Question 10
+--------------
+insert into my_stocks (symbol,n_shares,date_acquired) values ('CAT','4560','2002-03-28');
+
+select my_stocks.symbol, my_stocks.n_shares,stock_prices.price,my_stocks.n_shares * stock_prices.price as current_value from my_stocks join stock_prices on my_stocks.symbol=stock_prices.symbol; 
+
+ symbol | n_shares | price  | current_value 
+--------+----------+--------+---------------
+ DELL   |    12032 | 31.415 |    377985.280
+ DB     |     3450 | 31.415 |    108381.750
+ DIS    |     6590 | 31.415 |    207024.850
+ BAC    |     2211 | 31.415 |     69458.565
+ MCD    |     9900 | 31.415 |    311008.500
+
+select my_stocks.symbol, my_stocks.n_shares,stock_prices.price,my_stocks.n_shares * stock_prices.price as current_value from my_stocks full outer join stock_prices on my_stocks.symbol=stock_prices.symbol; 
+
+ symbol | n_shares | price  | current_value 
+--------+----------+--------+---------------
+ DELL   |    12032 | 31.415 |    377985.280
+ DB     |     3450 | 31.415 |    108381.750
+ DIS    |     6590 | 31.415 |    207024.850
+ BAC    |     2211 | 31.415 |     69458.565
+ MCD    |     9900 | 31.415 |    311008.500
+ CAT    |     4560 |        |              
+
+Question 11
+----------------
+create or replace function stock_value(symbol varchar)
+	returns integer as $$
+declare
+	value integer := 0;
+	symbol_length integer;
+	count integer := 0;
+	character char(1);
+begin
+	symbol_length := length(symbol);
+	
+	while count < symbol_length loop 
+		count := count + 1 ; 
+		character := substr(symbol, count, 1);
+		value := value + ascii(character);
+	end loop ; 
+	return value;
+end;
+$$ language plpgsql;
+
+update stock_prices set price = stock_value(stock_prices.symbol);
+select * from stock_prices;
+ symbol |          quote_date           | price 
+--------+-------------------------------+-------
+ DELL   | 2019-10-04 18:48:43.290128+07 |   289
+ DB     | 2019-10-04 18:48:43.290128+07 |   134
+ DIS    | 2019-10-04 18:48:43.290128+07 |   224
+ BAC    | 2019-10-04 18:48:43.290128+07 |   198
+ MCD    | 2019-10-04 18:48:43.290128+07 |   212
+(5 rows)
+
+create or replace function portfolio_value()
+	returns real as $$
+declare
+	total real := 0;
+	rec_portfolio record;
+	cursor cursor
+		for select my_stocks.symbol, my_stocks.n_shares,stock_prices.price,my_stocks.n_shares * stock_prices.price as current_value from my_stocks join stock_prices on my_stocks.symbol=stock_prices.symbol;
+begin
+	open cursor;
+	
+	loop
+		fetch cursor into rec_portfolio;
+		exit when not found;
+
+		total := total + rec_portfolio.current_value;
+	end loop;
+	return total;
+end;
+$$ language plpgsql;
+
+select portfolio_value();
+ portfolio_value 
+-----------------
+     7.95229e+06
+(1 row)
+
+Question 12
+--------------
+select avg(price) from stock_prices;
+
+	avg          
+----------------------
+ 211.4000000000000000
+(1 row)
+
+select symbol, sum(n_shares) from my_stocks group by symbol;
+ symbol |  sum  
+--------+-------
+ DB     |  3450
+ BAC    |  2211
+ CAT    |  4560
+ DELL   | 24064
+ MCD    | 19800
+ DIS    | 13180
+(6 rows)
+
+select my_stocks.symbol, sum(n_shares) * price as total_value from my_stocks join stock_prices on my_stocks.symbol = stock_prices.symbol  group by my_stocks.symbol, price;
+ symbol | total_value 
+--------+-------------
+ MCD    |     4197600
+ DB     |      462300
+ BAC    |      437778
+ DIS    |     2952320
+ DELL   |     6954496
+(5 rows)
+
+select my_stocks.symbol, sum(n_shares) as number_of_shares, sum(n_shares) * price as total_value from my_stocks join stock_prices on my_stocks.symbol = stock_prices.symbol  group by my_stocks.symbol, price having price > (select avg(price) from stock_prices);
+ symbol | number_of_shares | total_value 
+--------+------------------+-------------
+ MCD    |            19800 |     4197600
+ DIS    |            13180 |     2952320
+ DELL   |            24064 |     6954496
+(3 rows)
+
+Question 13
+-----------------
+create view stocks_i_like as select my_stocks.symbol, sum(n_shares) as number_of_shares, sum(n_shares) * price as total_value from my_stocks join stock_prices on my_stocks.symbol = stock_prices.symbol  group by my_stocks.symbol, price having price > (select avg(price) from stock_prices);
+CREATE VIEW
+
+select * from stocks_i_like;
+ symbol | number_of_shares | total_value 
+--------+------------------+-------------
+ MCD    |            19800 |     4197600
+ DIS    |            13180 |     2952320
+ DELL   |            24064 |     6954496
+
+*************************************************************************

@@ -24,7 +24,7 @@ Q6)
 First we wrote the file in public folder of Rails.root. And then parsed the xml elements using Nokogiri. Then, we created new Quotations for each dataset of xml.
 
 Q7-Q12
-Please refer to this link.
+Please refer to the text file ps2_sql.txt or this link.
 https://docs.google.com/document/d/1TrKb5pGrvcvhDQEPvD3Jk3w9OFYMCselmTPlOQ1bZLE/edit?usp=sharing
 
 
