@@ -67,22 +67,16 @@ class Ps2Controller < ApplicationController
   end
 
   def export_json
-    filepath = File.join(ENV['HOME'], '/Downloads/', 'quotation.json')
-    temp = Quotation.all.as_json
-    File.open(filepath, 'w') do |f|
-      f.write(JSON.pretty_generate(temp))
-    end
+    quotation = Quotation.all.as_json
+    quotation = JSON.pretty_generate(quotation)
+    send_data(quotation, :filename => "quotation.json" )
     redirect_to ps2_quotation_path
   end
 
   def export_xml
-    filepath_xml = File.join(ENV['HOME'], ['/Downloads/'], 'quotation.xml')
-    temp = Quotation.all.as_json
-    temp2 = temp.to_xml
-    File.open(filepath_xml, 'w') do |f|
-      f.write(temp2)
-    end
-    redirect_to ps2_quotation_path
+    quotation = Quotation.all.as_json
+    quotation = quotation.to_xml
+    send_data(quotation, :filename => "quotation.xml")
   end
 
 
