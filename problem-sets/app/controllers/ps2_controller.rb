@@ -67,7 +67,7 @@ class Ps2Controller < ApplicationController
   end
 
   def export_json
-    filepath = File.join(Rails.root, 'quotation.json')
+    filepath = File.join(ENV['HOME'], '/Downloads/', 'quotation.json')
     temp = Quotation.all.as_json
     File.open(filepath, 'w') do |f|
       f.write(JSON.pretty_generate(temp))
@@ -76,13 +76,9 @@ class Ps2Controller < ApplicationController
   end
 
   def export_xml
-    filepath = File.join(Rails.root, 'quotation.json')
-    filepath_xml = File.join(Rails.root, 'quotation.xml')
+    filepath_xml = File.join(ENV['HOME'], ['/Downloads/'], 'quotation.xml')
     temp = Quotation.all.as_json
     temp2 = temp.to_xml
-    File.open(filepath, 'w') do |f|
-      f.write(JSON.pretty_generate(temp))
-    end
     File.open(filepath_xml, 'w') do |f|
       f.write(temp2)
     end
