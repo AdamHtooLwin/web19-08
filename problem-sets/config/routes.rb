@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   get 'ps1/scrapper'
   root 'site#index'
   get 'site/index'
-
+  post 'ps2/export_json'
+  post 'ps2/export_xml'
   get 'basics' => 'ps1#index'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

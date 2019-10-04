@@ -4,9 +4,9 @@
     <style>
       .footer {
         position: fixed;
-        left: 0;
+        left: 25%;
         bottom: 0;
-        width: 100%;
+        width: 50%;
         background-color: gray;
         color: white;
         text-align: center;
@@ -24,7 +24,7 @@
   <body>
 
   <div class="footer">
-    <a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>"><h4>Validate this page!</h4></a>
+    <a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>"><h3>Validate this page!</h3></a>
   </div>
     <%= yield %>
   </body>
