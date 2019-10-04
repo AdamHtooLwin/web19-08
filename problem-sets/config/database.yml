@@ -82,4 +82,4 @@ production:
   <<: *default
   database: problem-sets_production
   username: problem-sets
-  password: <%= ENV['PROBLEM-SETS_DATABASE_PASSWORD'] %>
+  password: <%= ENV['PROBLEM_SETS_DATABASE_PASSWORD'] %>
