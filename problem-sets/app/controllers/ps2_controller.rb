@@ -79,6 +79,24 @@ class Ps2Controller < ApplicationController
     send_data(quotation, :filename => "quotation.xml")
   end
 
+  def import_xml
+    puts "Hello from import_xml"
+    uploaded_file = params[:file]
+    File.open(Rails.root.join('public', uploaded_file.original_filename), 'wb') do |file|
+      file.write(uploaded_file.read)
+    end
+    doc = File.open(Rails.root.join('public', uploaded_file.original_filename)) { |f| Nokogiri::XML(f) }
+    objects = doc.css('object')
+    objects.each do |object|
+      author_name = object.css('author-name').inner_text
+      category = object.css('category').inner_text
+      quote = object.css('quote').inner_text
+      puts author_name
+      @quotation = Quotation.new( :author_name => author_name, :quote => quote, :category => category )
+      @quotation.save
+    end
+    redirect_to ps2_quotation_path
+  end
 
   private
 

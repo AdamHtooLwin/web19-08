@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'site/index'
   get 'ps2/export_json'
   get 'ps2/export_xml'
+  post 'ps2/import_xml'
   get 'basics' => 'ps1#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -63,3 +63,16 @@
 <%= form_tag ps2_export_xml_path, method: "get", disabled: false do %>
   <%= submit_tag("Export XML") %>
 <% end %>
+
+
+<%# form_tag({:action => ps2_import_json_path},:multipart => true) %>
+
+<%= form_with(url: {action: :import_xml}, multipart: true) do %>
+  <%= file_field_tag 'file' %>
+  <%= submit_tag("Import XML") %>
+<% end %>
+
+<%#= form_tag ps2_import_json_path, method: "post", disabled: false do %>
+  <%#= submit_tag("Upload") %>
+  <%#= file_field_tag 'file' %>
+<%# end %>
