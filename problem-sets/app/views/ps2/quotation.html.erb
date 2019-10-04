@@ -56,10 +56,10 @@
     <%= form.submit 'Create' %>
   </div>
 <% end %>
-<%= form_tag ps2_export_json_path, method: "get", disabled: false do %>
-  <%= submit_tag("Export JSON") %>
-<% end %>
 
-<%= form_tag ps2_export_xml_path, method: "get", disabled: false do %>
-  <%= submit_tag("Export XML") %>
+<%= form_tag ps2_export_json_path, method: "get" do %>
+  <%= submit_tag("Export JSON", data: { disable_with: false }) %>
+<% end %>
+<%= form_tag ps2_export_xml_path, method: "get" do %>
+  <%= submit_tag("Export XML", data: { disable_with: false }) %>
 <% end %>

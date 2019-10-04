@@ -70,7 +70,6 @@ class Ps2Controller < ApplicationController
     quotation = Quotation.all.as_json
     quotation = JSON.pretty_generate(quotation)
     send_data(quotation, :filename => "quotation.json" )
-    redirect_to ps2_quotation_path
   end
 
   def export_xml
