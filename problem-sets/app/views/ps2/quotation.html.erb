@@ -19,9 +19,9 @@
   <div class="form_row">
     <%= form.label "Search" %>
     <%= form.text_field :search, :size => 20, :maxlength => 40 %>
+    <%= form.submit "Search" %>
   </div>
 
-  <%= form.submit "Search" %>
 <% end %>
 <hr>
 
@@ -56,35 +56,10 @@
     <%= form.submit 'Create' %>
   </div>
 <% end %>
+<%= form_tag ps2_export_json_path, method: "post" do %>
+  <%= submit_tag("Export JSON") %>
+<% end %>
 
-<!--<h3>New quotation</h3>-->
-<%#= form_for @quotation, :url => { :action => :quotation } do |form| %>
-  <%# @quotation.errors.full_messages.each do |message| %>
-<!--    <li><%#= message %></li>-->
-  <%# end %>
-
-<!--  <fieldset>-->
-<!--    <legend>Enter details</legend>-->
-<!--    <div class="form_row">-->
-      <%#= form.label :author_name %>
-      <%#= form.text_field :author_name, :size => 20, :maxlength => 40 %>
-<!--    </div>-->
-<!--    <div class="form_row">-->
-      <%#= form.label "New Category" %>
-      <%#= form.text_field :category, :size => 20, :maxlength => 40 %>
-<!--    </div>-->
-<!--    <div class="form_row">-->
-      <%#= form.label "Existing Category" %>
-      <%#= form.select :category, @categories, include_blank: true %>
-      <%#= form.collection_select :quotation, :category, Quotation.all, include_blank: true %>
-<!--    </div>-->
-<!--    <div class="form_row">-->
-      <%#= form.label :quote %>
-      <%#= form.text_area :quote, :rows => 2, :cols => 40, :maxlength => 500 %>
-<!--    </div>-->
-<!--  </fieldset>-->
-<!--  <p>-->
-<!--  <div class="form_row">-->
-    <%#= form.submit 'Create' %>
-<!--  </div>-->
-<%# end %>
+<%= form_tag ps2_export_xml_path, method: "post" do %>
+  <%= submit_tag("Export XML") %>
+<% end %>
