@@ -4,41 +4,33 @@ cd `dirname "$0"`/..
 
 # Settings that might need to change
 
-if [ "$SERVER_ENVIRONMENT" == "staging" ]; then
-  echo "Staging!"
-  DEPLOY_HOST=localhost
-  DEPLOY_HOST_SSH_PORT=2222
-  ADMIN_USER=vagrant
-  vagrant box list | grep ubuntu/bionic64 || {
-    vagrant box add ubuntu/bionic64
-  }
-  if [ ! -f "./Vagrantfile" ]; then
-    vagrant init ubuntu/bionic64
-  fi
-  vagrant destroy -f default
-  vagrant up
-  SSH_KEYS=(~/.ssh/mdailey@ait.ac.th_rsa ~/.ssh/id_rsa ./.vagrant/machines/default/virtualbox/private_key)
-  SSH_OPTS="-o StrictHostKeyChecking=no"
-  ssh-keygen -R [localhost]:2222
-else
-  echo "Production!"
-  DEPLOY_HOST=web1.cs.ait.ac.th
-  DEPLOY_HOST_SSH_PORT=22
-  ADMIN_USER=root
-  SSH_KEYS=(~/.ssh/mdailey@ait.ac.th_rsa ~/.ssh/id_rsa)
-  SSH_OPTS=""
-fi
+ADMIN_USER=root
+DEPLOY_HOST=web8.cs.ait.ac.th
+DEPLOY_HOST_SSH_PORT=22
 
-ssh-add -D
+# Settings that might not need to change
 
 DEPLOY_USER=deploy
-PROJECT_REPO=web19-01
-BAZOOKA_USER=mdailey
+PROJECT_REPO=web19-08
 PROXY="http://192.41.170.23:3128"
-PROD_DB="test_app_production"
-PROD_DB_USER="test_app"
+PROD_DB="problem_sets_production"
+PROD_DB_USER="problem_sets"
+SSL_EMAIL=st120832@ait.ac.th
 
-# Check that we have $PROD_DB_PASSWORD and $MASTER_KEY
+# Different settings for staging vs production
+
+if [ "$SERVER_ENVIRONMENT" == "staging" ]; then
+	echo "Staging!"
+	echo "Under Construction! Please come back later!"
+	exit 1
+else
+	echo "Production!"
+	DEPLOY_HOST=web8.cs.ait.ac.th
+  	DEPLOY_HOST_SSH_PORT=22
+  	ADMIN_USER=root
+  	SSH_KEYS=(~/.ssh/id_rsa)
+  	SSH_OPTS=""
+fi
 
 if [ -z "$PROD_DB_PASSWORD" ] ; then
   echo "Error: you need a production database password."
@@ -75,18 +67,30 @@ for KEY in "${SSH_KEYS[@]}" ; do
   }
 done
 
-# Install needed packages
-
+echo "SSH to $DEPLOY_HOST WITH $ADMIN_USER..."
 ssh $SSH_OPTS -T $ADMIN_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<EOF
   echo "Installing packages..."
+  sudo apt-get -y install apache2 curl dirmngr gnupg unattended-upgrades \
+            software-properties-common > /dev/null
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 \
+               --keyserver-options http-proxy=http://192.41.170.23:3128 \
+               --recv-keys 561F9B9CAC40B2F7 > /dev/null 2>&1
+  sudo apt-get install -y apt-transport-https ca-certificates > /dev/null
+  sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main > /etc/apt/sources.list.d/passenger.list'
+  sudo add-apt-repository universe > /dev/null
+  https_proxy=${PROXY} sudo -E add-apt-repository ppa:certbot/certbot > /dev/null
+  sudo apt-get update > /dev/null
+  sudo apt-get install -y libapache2-mod-passenger certbot \
+                          python-certbot-apache > /dev/null
   sudo apt-get -y upgrade > /dev/null
-  sudo apt-get -y install apache2 curl > /dev/null
   echo "Setting up deploy user..."
   grep ^${DEPLOY_USER}: /etc/passwd > /dev/null || {
     sudo adduser --gecos "" --disabled-password $DEPLOY_USER
   }
   mkdir -p /home/$DEPLOY_USER/.ssh
-  echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAxa6F6trAUZl9RGIpxrioaBtZdlg01XV5V+w/kvg+sStwFI2j8VNbq3nmwfAmjyxAn3uwHH1oaIxx+k4CcunubED70BIFG+j7q0zpKf728fRiy8OWWg5NodnlLQ81MQkaALR3105r9k8vD49ZcxAsf/EQ/cI9Gi6kRQyOzEFiCS0ebp0Tg/beea5/lz6KJxIlsVA/jYSIyFHsGksanmIFtXyoBWa293z9DPFIFNRr09o+09uiTzvwVrnkPi+h9TO33bTKhX5pk72H1hMv1UHL1kmyWyu73QRNzPJlrHw+cZYYLTCI8uobrAxBpbXilSsx8o1pwJLQLOAYw7mniTx1cw== mdailey@mdailey-t" > /home/${DEPLOY_USER}/.ssh/authorized_keys
+
+  echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1rrlSiTDT9WupW/7kUf13j90njBoAjKZjfvs4K8dU1RM/l6NSCP3NcAJYPajEd6rRmbgQmz0Jh6UfddF9vk3++bcvkyHKeIzGUy5tbagRV/5TeYg16IJ5/kxV2mmoahHFD7GAeHAGrtTcF1+PK0ZPyP4nqdcRS34CS+XfSbOBvD6+K6855q/J7ywl3qQZa50gjVw0CWazEuyfwF5GgmOb471OY/iwPKfwgK/UpbtcK6n3H8AHVPEJ0S9jO5wiEw/MoVDAv40BiWcaStXnmiVPKTgRde6zOAa8fPp21OObhqhClGWOe924bzOFzBJR6CRSn4bkVzmHSq2JiX6FWTv7 adam@adam-X556UQK" > /home/${DEPLOY_USER}/.ssh/authorized_keys
+
   chown -R ${DEPLOY_USER}:${DEPLOY_USER} /home/${DEPLOY_USER}
   if [ ! -f "/etc/apt/sources.list.d/nodesource.list" ] ; then
     echo "Adding nodejs repository..."
@@ -121,57 +125,47 @@ ssh $SSH_OPTS -T $ADMIN_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<E
     }
   }
   echo "Setting db password for $PROD_DB_USER"
-  PGCMD="alter user test_app with password '${PROD_DB_PASSWORD}'";
+  PGCMD="alter user problem_sets with password '${PROD_DB_PASSWORD}'";
   su - postgres -c "psql postgres -Ac \"\${PGCMD}\" " && {
     echo "Postgres user password set."
   } || {
     echo "Postgres user password setup failed!"
   }
-EOF
+  
+  if [ ! -f /etc/apache2/sites-enabled/rails.conf ] ; then
+    echo "Setting up Apache..."
+    a2enmod passenger
+    cat > /etc/apache2/sites-available/rails.conf <<EOF2
+<VirtualHost *:80>
+  ServerName web1.cs.ait.ac.th
 
-echo "Done with DB setup"
+  SetEnv http_proxy http://192.41.170.23:3128/
+  SetEnv https_proxy http://192.41.170.23:3128/
+  SetEnv PROBLEM_SETS_DATABASE_PASSWORD changeme
+
+  # Tell Apache and Passenger where your app's 'public' directory is
+  DocumentRoot /home/deploy/test-app/current/public
+
+  PassengerRuby /home/deploy/.rbenv/shims/ruby
+
+  # Relax Apache security settings
+  <Directory /home/web08/web19-08/problem-sets/public>
+    Allow from all
+    Options -MultiViews
+    Require all granted
+  </Directory>
+</VirtualHost>
+EOF2
+    a2dissite 000-default > /dev/null
+    a2ensite test-app > /dev/null
+    rm -f /var/www/html/index.html
+    apache2ctl restart
+  else
+    echo "Apache, Passenger, Certbot already configured..."
+    apache2ctl restart
+  fi
+EOF
 
 # Log in as deploy user, set up git, and check out project repository
 
-ssh $SSH_OPTS -T $DEPLOY_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<EOF
-  if [ ! -f /home/${DEPLOY_USER}/.ssh/known_hosts ] ; then
-    touch /home/${DEPLOY_USER}/.ssh/known_hosts
-  fi
-  grep ayOwPvCsbYATrWmRvCTaR0YRuEI= /home/${DEPLOY_USER}/.ssh/known_hosts || {
-    echo '|1|ayOwPvCsbYATrWmRvCTaR0YRuEI=|pNmneXdn9DKx1qVGtBFNIKVlc20= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBATD2SHAffLfw42QH9dniwoT0xIPN2vf4gycNlr+rTexmwsam+c4LyTfZJt83WsF30LYVsxJxMubzui3oeLfOSQ=' >> /home/${DEPLOY_USER}/.ssh/known_hosts
-  }
-  if [ ! -f /home/${DEPLOY_USER}/.ssh/config ] ; then
-    cat > /home/${DEPLOY_USER}/.ssh/config <<'EOF2'
-Host ait-vision.org
-  ProxyCommand ssh \${BAZOOKA_USER}@bazooka.cs.ait.ac.th nc %h %p
-  ForwardAgent yes
-EOF2
-  fi
-  export BAZOOKA_USER=${BAZOOKA_USER}
-  if [ ! -d /home/${DEPLOY_USER}/${PROJECT_REPO} ] ; then
-    git clone git@ait-vision.org:${PROJECT_REPO}
-  fi
-  cd ${PROJECT_REPO}
-  git pull origin master
-  mkdir -p ~/test-app/shared/config
-  cat > ~/test-app/shared/config/database.yml <<EOF2
-production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: ${PROD_DB}
-  host: localhost
-  username: ${PROD_DB_USER}
-  password: ${PROD_DB_PASSWORD}
-EOF2
-  echo "Checking for production database access..."
-  PGPASSWORD=${PROD_DB_PASSWORD} psql ${PROD_DB} -U ${PROD_DB_USER} -h localhost -c "" && {
-    echo "Successful connection."
-  } || {
-    echo "Deploy user cannot authenticate against production database!"
-    exit 1
-  }
-  echo "Setting master.key"
-  echo "${MASTER_KEY}" > ~/test-app/shared/config/master.key
-EOF
 
