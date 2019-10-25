@@ -161,12 +161,12 @@ ssh $SSH_OPTS -T $ADMIN_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<E
   SetEnv PROBLEM_SETS_DATABASE_PASSWORD changeme
 
   # Tell Apache and Passenger where your app's 'public' directory is
-  DocumentRoot /home/deploy/problem-sets-app/current/public
+  DocumentRoot /home/deploy/problem-sets/current/public
 
   PassengerRuby /home/deploy/.rbenv/shims/ruby
 
   # Relax Apache security settings
-  <Directory /home/deploy/problem-sets-app/current/public>
+  <Directory /home/deploy/problem-sets/current/public>
     Allow from all
     Options -MultiViews
     Require all granted
@@ -214,9 +214,9 @@ EOF2
 
   cd ${PROJECT_REPO}
   git pull origin master
-  mkdir -p ~/problem-sets-app/shared/config
+  mkdir -p ~/problem-sets/shared/config
 
-  cat > ~/problem-sets-app/shared/config/database.yml <<EOF2
+  cat > ~/problem-sets/shared/config/database.yml <<EOF2
 production:
   adapter: postgresql
   encoding: unicode
@@ -234,5 +234,5 @@ EOF2
     exit 1
   }
   echo "Setting master.key"
-  echo "${MASTER_KEY}" > ~/problem-sets-app/shared/config/master.key
+  echo "${MASTER_KEY}" > ~/problem-sets/shared/config/master.key
 EOF
