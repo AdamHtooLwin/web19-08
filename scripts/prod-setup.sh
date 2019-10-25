@@ -32,6 +32,12 @@ else
   	SSH_OPTS=""
 fi
 
+if [ -z "$BAZOOKA_USER" ] ; then
+  echo "Error: you need to set a bazooka user for csim proxy."
+  echo 'Run "export BAZOOKA_USER=st12345" to set a password.'
+  exit 1
+fi
+
 if [ -z "$PROD_DB_PASSWORD" ] ; then
   echo "Error: you need a production database password."
   echo 'Run "export PROD_DB_PASSWORD=mysecret" to set a password.'
@@ -43,6 +49,17 @@ if [ -z "$MASTER_KEY" ] ; then
   echo 'Run "export MASTER_KEY=`cat config/master.key`" to set a key.'
   exit 1
 fi
+
+### SSH_PUBLIC_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1rrlSiTDT9WupW/7kUf13j90njBoAjKZjfvs4K8dU1RM/l6NSCP3NcAJYPajEd6rRmbgQmz0Jh6UfddF9vk3++bcvkyHKeIzGUy5tbagRV/5TeYg16IJ5/kxV2mmoahHFD7GAeHAGrtTcF1+PK0ZPyP4nqdcRS34CS+XfSbOBvD6+K6855q/J7ywl3qQZa50gjVw0CWazEuyfwF5GgmOb471OY/iwPKfwgK/UpbtcK6n3H8AHVPEJ0S9jO5wiEw/MoVDAv40BiWcaStXnmiVPKTgRde6zOAa8fPp21OObhqhClGWOe924bzOFzBJR6CRSn4bkVzmHSq2JiX6FWTv7 adam@adam-X556UQK"
+
+if [ -z "$SSH_PUBLIC_KEY" ] ; then
+  echo "Error: you need to export your PUBLIC ssh key."
+  echo 'Run "export SSH_PUBLIC_KEY=`cat ~/.ssh/key.pub`" to set a public key.'
+  exit 1
+fi
+
+#echo $SSH_PUBLIC_KEY
+#exit 1
 
 # Add git keys to ssh agent
 
@@ -89,7 +106,7 @@ ssh $SSH_OPTS -T $ADMIN_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<E
   }
   mkdir -p /home/$DEPLOY_USER/.ssh
 
-  echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1rrlSiTDT9WupW/7kUf13j90njBoAjKZjfvs4K8dU1RM/l6NSCP3NcAJYPajEd6rRmbgQmz0Jh6UfddF9vk3++bcvkyHKeIzGUy5tbagRV/5TeYg16IJ5/kxV2mmoahHFD7GAeHAGrtTcF1+PK0ZPyP4nqdcRS34CS+XfSbOBvD6+K6855q/J7ywl3qQZa50gjVw0CWazEuyfwF5GgmOb471OY/iwPKfwgK/UpbtcK6n3H8AHVPEJ0S9jO5wiEw/MoVDAv40BiWcaStXnmiVPKTgRde6zOAa8fPp21OObhqhClGWOe924bzOFzBJR6CRSn4bkVzmHSq2JiX6FWTv7 adam@adam-X556UQK" > /home/${DEPLOY_USER}/.ssh/authorized_keys
+  echo ${SSH_PUBLIC_KEY} > /home/${DEPLOY_USER}/.ssh/authorized_keys
 
   chown -R ${DEPLOY_USER}:${DEPLOY_USER} /home/${DEPLOY_USER}
   if [ ! -f "/etc/apt/sources.list.d/nodesource.list" ] ; then
@@ -144,12 +161,12 @@ ssh $SSH_OPTS -T $ADMIN_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<E
   SetEnv PROBLEM_SETS_DATABASE_PASSWORD changeme
 
   # Tell Apache and Passenger where your app's 'public' directory is
-  DocumentRoot /home/deploy/test-app/current/public
+  DocumentRoot /home/deploy/problem-sets-app/current/public
 
   PassengerRuby /home/deploy/.rbenv/shims/ruby
 
   # Relax Apache security settings
-  <Directory /home/web08/web19-08/problem-sets/public>
+  <Directory /home/deploy/problem-sets-app/current/public>
     Allow from all
     Options -MultiViews
     Require all granted
@@ -168,4 +185,54 @@ EOF
 
 # Log in as deploy user, set up git, and check out project repository
 
+ssh $SSH_OPTS -T $DEPLOY_USER@$DEPLOY_HOST -p $DEPLOY_HOST_SSH_PORT /bin/bash <<EOF
+  if [ ! -f /home/${DEPLOY_USER}/.ssh/known_hosts ] ; then
+    touch /home/${DEPLOY_USER}/.ssh/known_hosts
+  fi
 
+  grep 9cIYXOiLOOn7Uhx7ALShiVT8UPU= /home/${DEPLOY_USER}/.ssh/known_hosts || {
+  echo '|1|9cIYXOiLOOn7Uhx7ALShiVT8UPU=|EV5uNqCzTTpAdPUGyBg8pdY7bX4= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBATD2SHAffLfw42QH9dniwoT0xIPN2vf4gycNlr+rTexmwsam+c4LyTfZJt83WsF30LYVsxJxMubzui3oeLfOSQ=' >> /home/${DEPLOY_USER}/.ssh/known_hosts
+  }
+
+  grep eQ3jZ4GB3rgwhSlcwzQ4K7ioawY= /home/${DEPLOY_USER}/.ssh/known_hosts || {
+  echo '|1|eQ3jZ4GB3rgwhSlcwzQ4K7ioawY=|dNCnM1ekzo4huaD5a0X55x8/WZQ= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLBbZrwQNbRQfgily2GtVjLz5DrIauDv88r2JA/F/AvTFD20fVOarQwfqUeLuR5kXsZDe4qtj/P05veH539JtZA=' >> /home/${DEPLOY_USER}/.ssh/known_hosts
+  }
+
+  
+  if [ ! -f /home/${DEPLOY_USER}/.ssh/config ] ; then
+    cat > /home/${DEPLOY_USER}/.ssh/config <<'EOF2'
+Host ait-vision.org
+  ProxyCommand ssh \${BAZOOKA_USER}@bazooka.cs.ait.ac.th nc %h %p
+  ForwardAgent yes
+EOF2
+  fi
+
+  export BAZOOKA_USER=${BAZOOKA_USER}
+  if [ ! -d /home/${DEPLOY_USER}/${PROJECT_REPO} ] ; then
+    git clone git@ait-vision.org:${PROJECT_REPO}
+  fi
+
+  cd ${PROJECT_REPO}
+  git pull origin master
+  mkdir -p ~/problem-sets-app/shared/config
+
+  cat > ~/problem-sets-app/shared/config/database.yml <<EOF2
+production:
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: ${PROD_DB}
+  host: localhost
+  username: ${PROD_DB_USER}
+  password: ${PROD_DB_PASSWORD}
+EOF2
+  echo "Checking for production database access..."
+  PGPASSWORD=${PROD_DB_PASSWORD} psql ${PROD_DB} -U ${PROD_DB_USER} -h localhost -c "" && {
+    echo "Successful connection."
+  } || {
+    echo "Deploy user cannot authenticate against production database!"
+    exit 1
+  }
+  echo "Setting master.key"
+  echo "${MASTER_KEY}" > ~/problem-sets-app/shared/config/master.key
+EOF
