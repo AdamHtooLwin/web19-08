@@ -1,4 +1,121 @@
-<h2>Group 8</h2><h3>Kiran Dhakal(121108), Htoo Lwin(120832), Suprava Sahoo(120984)</h3>
+<div class="container"><h2>Project Documentation</h2><h3>Kiran Dhakal(121108), Htoo Lwin(120832), Suprava Sahoo(120984)</h3>
+</div>
 <hr>
 
+<div class="container">
+  <strong>
+  What will people be able to learn about in the community that you’re building? Alternatively, if you are automating some collaborative workflow, what work will people accomplish with your system?
+  </strong>
+  <br>
+  Our system helps bring users, who want to buy the same product, together in a group to create a group shopping list. This will allow the group to buy things in bulk from wholesalers and do not have to go through the retailer, thus saving money. They can then divide the purchased items.
+  <hr>
 
+  <strong>
+    What do you want people to say about your service after a visit?
+  </strong>
+  <br>
+  We want an honest opinion from our users so that we can improve our product so that it can serve its purpose.
+  Also, with the quality of our product, we hope to get a positive feedback from the people. We are hopeful that people will feel that our product really helped them get together to buy things from wholesale.
+  <hr>
+
+  <strong>
+    What should a user on a smartphone be able to do?
+  </strong>
+  <br>
+  The users should be able to do all the things that they are able to do in the web application. Maybe in a later, more mature stage of the application, we could develop a standalone mobile application that makes use of a backend API.
+  <hr>
+
+  <strong>
+    Offline alternatives
+  </strong>
+  <br>
+  The most obvious offline alternative is organizing a trip to a wholesale market by word of mouth, usually with people from your social circle. This is inefficient and communication overhead time might be significant given people’s schedules. Communicating what people want and how much of it they want may prove to be long and time-consuming. Our app aims to streamline the organization process by helping users quickly identify fellow users who want the same items/supplies. A physically written shopping list would have to be kept by the group whereas our “shopping list” is aggregated from all the users in the group automagically.
+  <hr>
+
+  <strong>
+    Online alternatives
+  </strong>
+  <br>
+  There are alternative mediums that users can use to link up with other potential buyers. One good example is Facebook or any other social media platform. However, these sites don’t have a streamlined mechanism to bring together a group of people with similar desires. Our application automates the flow of bringing together people and creating a shared environment to help them share resources.
+  <hr>
+
+  <strong>
+    SQL Injection and XSS Attack Prevention
+  </strong>
+  <br>
+  To prevent SQL injection, we will use parameterized variables in all our SQL queries not using the predefined ActiveRecord methods, such as find(), etc. This will make sure the input is an array and not a direct string input from the user.
+  <br><br>
+  To prevent XSS attacks, we will make use of the default html escaping provided by Rails in input forms. All special characters will be converted into their corresponding symbols but will be rendered correctly by the browser. Moreover, our forms will not allow any HTML input (for now anyway unless we allow some fancy styling for blog/forum posts/comments).
+  <hr>
+
+  <strong>
+    Magnet Content
+  </strong>
+  <br>
+  The main magnetic content for our application would be blog posts by us as developers or by the users. The dev blogs would detail our vision and goal in creating this beautiful site for the benefit of the community. The user blogs will detail the success stories that our site has brought about on the users.
+  <hr>
+
+  <strong>
+    DNS and Host Name Registration Procedures
+  </strong>
+  <br>
+  conquerndivide.com is our tentative hostname for our web application. For now, we would like to host this web app on an AIT domain since the primary target audience is the AIT community. However, if the scope of this app is enlarged to the wider public, then it would be better to host on an external provider. There are several options for DNS registration, such as BlueHost, GoDaddy, etc. All these domain name registrars provide domain names for purchase. Once our user base has also increased, we could also scale our servers to Amazon, Azure, etc.
+  <hr>
+
+  <strong>
+    Sensitive Data Audit
+  </strong>
+  <br>
+  The production database password is not stored anywhere on the server or in the repository. It is set only once during the setup of the production server and this is done by an environment variable.
+  <br>
+  The master.key file for the Rails application is also not checked into the Git repository but it is present on the server, although it is not accessible by the web server.
+  <hr>
+
+  <strong>
+    User Data Model
+  </strong>
+  <br>
+  <ol>
+    <li>first_name(string)</li>
+    <li>last_name(string)</li>
+    <li>email(string)</li>
+    <li>username(string)</li>
+    <li>is_admin(boolean)</li>
+    <li>avatar(string)</li>
+  </ol>
+  <hr>
+
+  <strong>
+    User Registration and User Login
+  </strong>
+  <br>
+  Gerkhin for BDD:
+  <br>
+  Feature: User
+  <br>
+  Scenario : A web user visiting our application page should be able to register.
+  <br><br>
+  Given I want to register myself in the application<br>
+  And I visit the home page<br>
+  Then I should see the sign up form<br>
+  When I fill up my details in the form and click on “Register” button<br>
+  Then I should be directed back to home/login page<br>
+  And I should see the message “Successfully registered”<br>
+  When I fill in my credentials in Login form and click on “Login” button<br>
+  Then I should be redirected to my user page.<br>
+
+  <br>
+
+  Scenario : An existing user visiting our application page should be able to login.
+  <br><br>
+  Given I am an already registered user.<br>
+  And I visit the home page<br>
+  Then I should see the login form<br>
+  When I fill in my credentials in Login form and click on “Login” button<br>
+  Then I should be redirected to my user page.<br>
+  <hr>
+
+  <a href="https://docs.google.com/document/d/1FvW25sgZ9WXZf3Q4ChU8Jny22gsTjc8Oh4BRzCwfuXg/edit?usp=sharing">Link to the whole project document.</a>
+  <hr>
+
+</div>
