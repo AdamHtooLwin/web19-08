@@ -2,15 +2,13 @@
 <html lang="en">
   <head>
     <style>
-      .footer {
-        position: fixed;
+      .bottom {
         bottom: 0;
         width: 100%;
-        background-color: transparent;
-        color: white;
-        text-align: center;
+        /* Set the fixed height of the footer here */
+        height: 60px;
+        background-color: #f5f5f5;
       }
-
       .text-muted {
         color: #777;
         padding-top: 20px;
@@ -58,12 +56,18 @@
     </div>
   </nav>
 
-  <footer class="footer">
-    <div class="container">
-      <p class="text-muted"><a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>">Validate this page!</a></p>
-    </div>
-  </footer>
+<!--  <footer class="footer">-->
+<!--    <div class="container">-->
+<!--      <p class="text-muted"><a href="https://validator.w3.org/nu/?doc=<%#= request.original_url %>">Validate this page!</a></p>-->
+<!--    </div>-->
+<!--  </footer>-->
 
-    <%= yield %>
+  <%= yield %>
+
+<!--  <div class="bottom">-->
+<!--    <div class="container">-->
+<!--      <p class="text-muted"><a href="https://validator.w3.org/nu/?doc=<%#= request.original_url %>">Validate this page!</a></p>-->
+<!--    </div>-->
+<!--  </div>-->
   </body>
 </html>
