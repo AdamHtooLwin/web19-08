@@ -1,5 +1,11 @@
 pipeline {
-    agent { docker { image 'ruby' } }
+    agent {
+        dockerfile {
+          label "cpu-1-ci"
+          filename 'build/Dockerfile'
+        }
+    }
+
     stages {
         stage('build') {
             steps {
