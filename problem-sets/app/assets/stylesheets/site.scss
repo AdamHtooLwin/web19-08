@@ -1,3 +1,30 @@
 // Place all the styles related to the site controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+input {
+  margin-bottom : 5px;
+  width : 300px;
+  border-radius : 2px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.jumbotron {
+  width : 430px;
+  margin-top: 50px;
+}
+input[type=submit] {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius : 2px;
+}
+input[type=submit]:hover {
+  background-color: #4CBF50;
+}
