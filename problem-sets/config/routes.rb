@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'registrations/new'
+  get 'registrations/create'
+  get 'registrations/update'
+  devise_for :users
   get 'documentation/index'
   get 'basics/index'
   get 'ps2/index'

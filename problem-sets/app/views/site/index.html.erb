@@ -1,10 +1,44 @@
 <div class="container"><div class="jumbotron">
-<h1>Problem Sets</h1>
-<h2>Group 8</h2><h3>Kiran Dhakal(121108), Htoo Lwin(120832), Suprava Sahoo(120984)</h3>
+  <h3>Create an account</h3>
+  <%= form_with local: true, url: "registrations/create" do |form| %>
+    <div class = input_group>
+      <label>
+        <%= form.text_field :first_name, placeholder: "First name" %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+        <%= form.text_field :last_name, placeholder: "Last name" %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+        <%= form.email_field :email, placeholder: "Email" %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+          <%= form.password_field :password, placeholder: "New password" %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+        <%= form.submit "Sign up" %>
+      </label>
+    </div>
+
+    <% end %>
 </div></div>
 <hr>
 
-<div class="container"><%= link_to "Basics", "/basics" %><br></div>
+
+
+
+  <div class="container"><%= link_to "Basics", "/basics" %><br></div>
 <div class="container"><%= link_to "Documentation", "/documentation" %><br></div>
 
 
