@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'user_admin/index'
   get 'registrations/new'
   get 'registrations/create'
   post 'registrations/create'
