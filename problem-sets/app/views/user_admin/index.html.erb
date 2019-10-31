@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
@@ -18,6 +20,8 @@
           <th>Email</th>
           <th>Registered on</th>
           <th>Admin</th>
+          <th>Banned</th>
+          <th>Ban/Unban</th>
           <th colspan="3"></th>
         </tr>
         </thead>
@@ -27,8 +31,22 @@
           <tr>
             <td><%= user.id %></td>
             <td><%= user.email %></td>
-            <td><%= user.created_at %></td>
+            <td><%= user.created_at.in_time_zone("Asia/Bangkok") %></td>
             <td><%= user.is_admin %></td>
+            <td>
+              <% if user.is_banned %>
+                <span class="glyphicon glyphicon-ok" style="color: green"></span>
+              <% else %>
+                <span class="glyphicon glyphicon-remove" style="color: red"></span>
+              <% end %>
+            </td>
+            <td>
+              <% if user.is_banned %>
+                <a href="#ban">Unban <span class="glyphicon glyphicon-remove" style="color: red"></span></a>
+              <% else %>
+                <a href="#ban">Ban  <span class="glyphicon glyphicon-ok" style="color: green"></span></a>
+              <% end %>
+            </td>
           </tr>
         <% end %>
         </tbody>
