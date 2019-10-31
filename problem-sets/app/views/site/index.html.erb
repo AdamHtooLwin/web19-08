@@ -3,25 +3,25 @@
   <%= form_with local: true, url: "registrations/create" do |form| %>
     <div class = input_group>
       <label>
-        <%= form.text_field :first_name, placeholder: "First name" %>
+        <%= form.text_field :first_name, placeholder: "First name", :required => true %>
       </label>
     </div>
 
     <div class = input_group>
       <label>
-        <%= form.text_field :last_name, placeholder: "Last name" %>
+        <%= form.text_field :last_name, placeholder: "Last name", :required => true %>
       </label>
     </div>
 
     <div class = input_group>
       <label>
-        <%= form.email_field :email, placeholder: "Email" %>
+        <%= form.email_field :email, placeholder: "Email", :required => true %>
       </label>
     </div>
 
     <div class = input_group>
       <label>
-          <%= form.password_field :password, placeholder: "New password" %>
+          <%= form.password_field :password, placeholder: "New password", :required => true %>
       </label>
     </div>
 

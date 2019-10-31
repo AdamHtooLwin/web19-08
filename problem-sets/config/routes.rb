@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'registrations/new'
   get 'registrations/create'
+  post 'registrations/create'
   get 'registrations/update'
   devise_for :users
   get 'documentation/index'
