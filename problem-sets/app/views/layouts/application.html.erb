@@ -2,17 +2,6 @@
 <html lang="en">
   <head>
     <style>
-      .bottom {
-        bottom: 0;
-        width: 100%;
-        /* Set the fixed height of the footer here */
-        height: 60px;
-        background-color: #f5f5f5;
-      }
-      .text-muted {
-        color: #777;
-        padding-top: 20px;
-      }
     </style>
 
     <title>ProblemSets</title>
@@ -66,25 +55,22 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>">Validate this page!</a></li>
         </ul>
-        <form class="navbar-form navbar-right">
-          <input type="text" class="form-control" placeholder="Search...">
-        </form>
+        <%= form_with class:"navbar-form navbar-right", method: "post", local: true, url: user_session_path do |form| %>
+            <label>
+              <%= form.email_field :email, placeholder: "Email", class: "login-input" %>
+            </label>
+            <label>
+              <%= form.password_field :password, placeholder: "Password", class: "login-input"%>
+            </label>
+            <label>
+              <%= form.submit "Log In", class: "login-submit" %>
+            </label>
+        <% end %>
       </div>
     </div>
   </nav>
 
-<!--  <footer class="footer">-->
-<!--    <div class="container">-->
-<!--      <p class="text-muted"><a href="https://validator.w3.org/nu/?doc=<%#= request.original_url %>">Validate this page!</a></p>-->
-<!--    </div>-->
-<!--  </footer>-->
 
   <%= yield %>
-
-<!--  <div class="bottom">-->
-<!--    <div class="container">-->
-<!--      <p class="text-muted"><a href="https://validator.w3.org/nu/?doc=<%#= request.original_url %>">Validate this page!</a></p>-->
-<!--    </div>-->
-<!--  </div>-->
   </body>
 </html>

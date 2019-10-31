@@ -10,6 +10,30 @@ input {
   box-sizing: border-box;
   padding: 5px;
 }
+.login-input {
+  margin-bottom : 5px;
+  width : 150px;
+  border-radius : 2px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.login-submit {
+  margin-left: 10px;
+  width: 90px;
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius : 2px;
+}
+
 .jumbotron {
   width : 430px;
   margin-top: 50px;
@@ -25,6 +49,7 @@ input[type=submit] {
   font-size: 14px;
   border-radius : 2px;
 }
+
 input[type=submit]:hover {
   background-color: #4CBF50;
 }
