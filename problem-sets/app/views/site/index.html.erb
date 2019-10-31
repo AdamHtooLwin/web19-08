@@ -1,4 +1,13 @@
-<div class="container"><div class="jumbotron">
+<% if user_signed_in? %>
+  <%= link_to current_user.first_name, "/profile" %>
+  <br>
+  <strong>DASHBOARD</strong>
+  <br>
+  <strong>UNDER CONSTRUCTION</strong>
+<% end %>
+
+<% if !user_signed_in? %>
+  <div class="container"><div class="jumbotron">
   <h3>Create an account</h3>
   <%= form_with local: true, url: "registrations/create" do |form| %>
     <div class = input_group>
@@ -32,13 +41,9 @@
     </div>
 
     <% end %>
-</div></div>
-<hr>
-
-
-
-
+  </div></div>
+  <hr>
   <div class="container"><%= link_to "Basics", "/basics" %><br></div>
-<div class="container"><%= link_to "Documentation", "/documentation" %><br></div>
-
+  <div class="container"><%= link_to "Documentation", "/documentation" %><br></div>
+<% end %>
 
