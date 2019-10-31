@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'profile/show'
+  get 'profile/edit'
   get 'registrations/new'
   get 'registrations/create'
   post 'registrations/create'
