@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'user_admin/index'
   get 'profile/show'
   get 'profile/edit'
   post 'profile/update_avatar'
