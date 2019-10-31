@@ -1,10 +1,54 @@
 <h1>Profile#show</h1>
 <p>Find me in app/views/profile/show.html.erb</p>
 
-<%=
-  if current_user.avatar?
-    image_tag(url_for(current_user.avatar), :size => "50x50", :crop => :fill)
-  else
-    image_tag "app/assets/images/default/default-avatar.png"
-  end
-%>
+<% if !current_user.avatar.attached? %>
+  <%= image_tag(asset_path("default/missing.png"), :size => "300x300", :crop => :fill) %>
+<% else %>
+  <%= image_tag(url_for(current_user.avatar), :size => "300x300", :crop => :fill) %>
+<% end %>
+
+<%= form_with local: true, :url => { :action => :update_avatar } do |form| %>
+  <%= form.hidden_field :id, value: current_user.id %>
+  <%= form.file_field :avatar %>
+  <%= form.submit "Change Profile Picture" %>
+<% end %>
+
+
+
+
+
+
+
+
+
+<div class="container"><div class="jumbotron">
+  <h3>Edit account</h3>
+  <%= form_with local: true, url: profile_update_path do |form| %>
+    <%= form.hidden_field :id, value: current_user.id %>
+    <div class = input_group>
+      <label>
+        <%= form.text_field :first_name, placeholder: "First name", :required => true %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+        <%= form.text_field :last_name, placeholder: "Last name", :required => true %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+        <%= form.email_field :email, placeholder: "Email", :required => true %>
+      </label>
+    </div>
+
+    <div class = input_group>
+      <label>
+        <%= form.submit "Save" %>
+      </label>
+    </div>
+
+  <% end %>
+</div></div>
+<hr>

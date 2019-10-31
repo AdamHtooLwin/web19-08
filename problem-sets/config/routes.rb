@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'profile/show'
   get 'profile/edit'
+  post 'profile/update_avatar'
+  post 'profile/update'
   get 'registrations/new'
   get 'registrations/create'
   post 'registrations/create'
