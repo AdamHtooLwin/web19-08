@@ -28,17 +28,6 @@
         <%= flash[:error] %>
       </div>
     <% end %>
-    <div id="container">
-      <div id="user_status">
-        <% if user_signed_in? %>
-<!--          Welcome <%#= current_user.email %>! Not you?-->
-          <%#= link_to "Sign out", destroy_user_session_path, method: :delete %>
-        <% else %>
-<!--          <%#= link_to "Sign up", new_user_registration_path %> or-->
-<!--          <%#= link_to "Sign in", new_user_session_path %>.-->
-        <% end %>
-      </div>
-    </div>
 
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -53,24 +42,31 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li><a>Welcome <%= current_user.first_name %>!</a></li>
+            <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+          <% end %>
           <li><a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>">Validate this page!</a></li>
         </ul>
-        <%= form_with class:"navbar-form navbar-right", method: "post", local: true, url: user_session_path do |form| %>
-            <label>
-              <%= form.email_field :email, placeholder: "Email", class: "login-input" %>
-            </label>
-            <label>
-              <%= form.password_field :password, placeholder: "Password", class: "login-input"%>
-            </label>
-            <label>
-              <%= form.submit "Log In", class: "login-submit" %>
-            </label>
+        <% if !user_signed_in? %>
+          <%= form_with scope: "user", class:"navbar-form navbar-right", method: "post", local: true, url: user_session_path do |form| %>
+                <%= form.email_field :email, placeholder: "Email", required: true, class: "form-control" %>
+                <%= form.password_field :password, required: true, placeholder: "Password", class: "form-control"%>
+                <%= form.submit "Log In", class: "login-submit" %>
+          <% end %>
         <% end %>
+
       </div>
     </div>
   </nav>
 
 
   <%= yield %>
+
+<!--  <div class="bottom">-->
+<!--    <div class="container">-->
+<!--      <p class="text-muted"><a href="https://validator.w3.org/nu/?doc=<%#= request.original_url %>">Validate this page!</a></p>-->
+<!--    </div>-->
+<!--  </div>-->
   </body>
 </html>
