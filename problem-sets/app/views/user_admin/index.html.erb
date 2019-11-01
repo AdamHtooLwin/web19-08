@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="container-fluid">
-  <div class="row">
+  <div class="row" style="border-bottom: 1px solid #ccc;">
     <div class="col-sm-3 col-md-2 sidebar">
       <ul class="nav nav-sidebar">
         <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
@@ -42,9 +42,9 @@
             </td>
             <td>
               <% if user.is_banned %>
-                <a href="#ban">Unban <span class="glyphicon glyphicon-remove" style="color: red"></span></a>
+                <%= link_to "Unban", user_admin_ban_user_path(:user_id => user.id), :method => "post" %> <span class="glyphicon glyphicon-remove" style="color: red"></span>
               <% else %>
-                <a href="#ban">Ban  <span class="glyphicon glyphicon-ok" style="color: green"></span></a>
+                <%= link_to "Ban", user_admin_ban_user_path(:user_id => user.id), :method => "post" %> <span class="glyphicon glyphicon-ok" style="color: green"></span>
               <% end %>
             </td>
           </tr>
@@ -54,4 +54,3 @@
     </div>
   </div>
 </div>
-<hr>
