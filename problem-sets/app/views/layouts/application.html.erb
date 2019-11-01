@@ -51,6 +51,7 @@
           <% end %>
           <li><a href="https://validator.w3.org/nu/?doc=<%= request.original_url %>">Validate this page!</a></li>
         </ul>
+
         <% if !user_signed_in? %>
           <%= form_with scope: "user", class:"navbar-form navbar-right", method: "post", local: true, url: user_session_path do |form| %>
                 <%= form.email_field :email, id: "login_email", placeholder: "Email", required: true, class: "form-control" %>

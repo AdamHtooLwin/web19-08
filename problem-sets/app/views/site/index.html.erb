@@ -17,7 +17,7 @@
 <% if !user_signed_in? %>
   <div class="container"><div class="jumbotron">
   <h3>Create an account</h3>
-  <%= form_with local: true, url: "registrations/create" do |form| %>
+  <%= form_with scope: "user", local: true, method: "post", url: user_registration_path do |form| %>
     <div class = input_group>
       <label>
         <%= form.text_field :first_name, placeholder: "First name", :required => true %>
