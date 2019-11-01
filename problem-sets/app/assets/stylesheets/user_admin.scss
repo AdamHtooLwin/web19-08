@@ -3,8 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .sidebar {
-  position: fixed;
-  size: auto;
+  position: absolute;
+  padding-bottom: 100%;
   background-color: #f5f5f5;
 }
 
