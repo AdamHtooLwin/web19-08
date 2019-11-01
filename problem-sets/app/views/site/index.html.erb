@@ -1,9 +1,17 @@
 <% if user_signed_in? %>
+  <% if current_user.is_banned%>
+    <div class="container">
+      <div class="jumbotron"><h2>You have been banned!</h2><br>
+      Please contact the administrator.
+      </div>
+    </div>
+  <% else %>
   <%= link_to current_user.first_name, "/profile" %>
   <br>
   <strong>DASHBOARD</strong>
   <br>
   <strong>UNDER CONSTRUCTION</strong>
+  <% end %>
 <% end %>
 
 <% if !user_signed_in? %>
@@ -46,4 +54,3 @@
   <div class="container"><%= link_to "Basics", "/basics" %><br></div>
   <div class="container"><%= link_to "Documentation", "/documentation" %><br></div>
 <% end %>
-
