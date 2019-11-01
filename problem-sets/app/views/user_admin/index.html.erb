@@ -19,6 +19,7 @@
           <th>ID</th>
           <th>Email</th>
           <th>Registered on</th>
+          <th>Name</th>
           <th>Admin</th>
           <th>Banned</th>
           <th>Ban/Unban</th>
@@ -32,6 +33,7 @@
             <td><%= user.id %></td>
             <td><%= user.email %></td>
             <td><%= user.created_at.in_time_zone("Asia/Bangkok") %></td>
+            <td><%= user.first_name %> <%= user.last_name %></td>
             <td><%= user.is_admin %></td>
             <td>
               <% if user.is_banned %>
