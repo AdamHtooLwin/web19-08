@@ -1,11 +1,30 @@
 Given("I am an admin user") do
-  pending # Write code here that turns the phrase above into concrete actions
+  @admin = FactoryBot.create :admin
+end
+
+And("I am signed in") do
+  visit('/')
+  fill_in "login_email", with: @admin.email
+  fill_in "login_password", with: @admin.password
+  click_button 'Log In'
+end
+
+And("there are registered users") do
+  @user = FactoryBot.create :user1
 end
 
 Given("I visit the user management page") do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit('/user_admin/index')
 end
 
 Then("I should see all the users currently registered") do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content "#{@admin.email}"
+  expect(page).to have_content "#{@admin.id}"
+  expect(page).to have_content "#{@admin.first_name}"
+  expect(page).to have_content "#{@admin.last_name}"
+
+  expect(page).to have_content "#{@user.email}"
+  expect(page).to have_content "#{@user.id}"
+  expect(page).to have_content "#{@user.first_name}"
+  expect(page).to have_content "#{@user.last_name}"
 end
