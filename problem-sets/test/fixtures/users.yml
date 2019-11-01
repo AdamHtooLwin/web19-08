@@ -17,7 +17,15 @@ two:
   id: 2
   email: "user@c.com"
   encrypted_password: "$2a$10$ZU0x7nDXA1EKbUAjwKTCwegV/yfddZkvfKWEa9/arb5pBQuy/1oFu"
-  is_admin: true
+  is_admin: false
   first_name: "Mark"
   last_name: "Peters"
-# column: value
+
+banned:
+  id: 3
+  email: "banned@c.com"
+  encrypted_password: "$2a$10$ZU0x7nDXA1EKbUAjwKTCwegV/yfddZkvfKWEa9/arb5pBQuy/1oFu"
+  is_admin: false
+  first_name: "Banned"
+  last_name: "Peters"
+  is_banned: true
