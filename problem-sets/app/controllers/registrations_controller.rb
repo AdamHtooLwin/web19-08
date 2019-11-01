@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class RegistrationsController < DeviseController
   def new
     super
   end
