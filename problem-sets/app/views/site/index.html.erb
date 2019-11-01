@@ -6,11 +6,12 @@
       </div>
     </div>
   <% else %>
-  <%= link_to current_user.first_name, "/profile/show" %>
-  <br>
-  <strong>DASHBOARD</strong>
-  <br>
-  <strong>UNDER CONSTRUCTION</strong>
+
+    <div class="container">
+      <div class="jumbotron"><h2>Dashboard Under Construction!</h2><br>
+        <%= link_to current_user.first_name, "/profile/show" %>
+      </div>
+    </div>
   <% end %>
 <% end %>
 
