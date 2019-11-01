@@ -17,28 +17,28 @@
 <% if !user_signed_in? %>
   <div class="container"><div class="jumbotron">
   <h3>Create an account</h3>
-  <%= form_with local: true, url: "registrations/create" do |form| %>
+  <%= form_with class: 'sign_up', local: true, url: registrations_create_path do |form| %>
     <div class = input_group>
       <label>
-        <%= form.text_field :first_name, placeholder: "First name", :required => true %>
+        <%= form.text_field :first_name, id: "sign_up_first_name", placeholder: "First name", :required => true %>
       </label>
     </div>
 
     <div class = input_group>
       <label>
-        <%= form.text_field :last_name, placeholder: "Last name", :required => true %>
+        <%= form.text_field :last_name, id: "sign_up_last_name", placeholder: "Last name", :required => true %>
       </label>
     </div>
 
     <div class = input_group>
       <label>
-        <%= form.email_field :email, placeholder: "Email", :required => true %>
+        <%= form.email_field :email, id: "sign_up_email", placeholder: "Email", :required => true %>
       </label>
     </div>
 
     <div class = input_group>
       <label>
-          <%= form.password_field :password, placeholder: "New password", :required => true %>
+          <%= form.password_field :password, id: "sign_up_password", placeholder: "New password", :required => true %>
       </label>
     </div>
 

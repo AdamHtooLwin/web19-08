@@ -53,8 +53,8 @@
         </ul>
         <% if !user_signed_in? %>
           <%= form_with scope: "user", class:"navbar-form navbar-right", method: "post", local: true, url: user_session_path do |form| %>
-                <%= form.email_field :email, placeholder: "Email", required: true, class: "form-control" %>
-                <%= form.password_field :password, required: true, placeholder: "Password", class: "form-control"%>
+                <%= form.email_field :email, id: "login_email", placeholder: "Email", required: true, class: "form-control" %>
+                <%= form.password_field :password, id: "login_password", required: true, placeholder: "Password", class: "form-control"%>
                 <%= form.submit "Log In", class: "login-submit" %>
           <% end %>
         <% end %>
