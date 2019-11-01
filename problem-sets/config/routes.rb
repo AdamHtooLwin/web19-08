@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'user_admin/index'
-  post 'user_admin/ban_user'
+  patch 'user_admin/ban_user'
 
   get 'profile/show'
   get 'profile/edit'
