@@ -1,7 +1,6 @@
 pipeline {
     agent {
         dockerfile {
-          label "cpu-1-ci"
           filename 'build/Dockerfile'
         }
     }
