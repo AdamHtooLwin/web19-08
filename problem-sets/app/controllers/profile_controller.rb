@@ -1,5 +1,7 @@
 class ProfileController < ApplicationController
-  before_action :set_user, only: [:update_avatar, :update]
+  before_action :set_user,  only: [:update_avatar, :update]
+  before_action :authenticate_user!
+
   def show
 
   end
