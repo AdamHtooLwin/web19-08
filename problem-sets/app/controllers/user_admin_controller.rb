@@ -1,11 +1,8 @@
 class UserAdminController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_admin
 
   def index
-    if !current_user or !current_user.is_admin
-      redirect_to site_index_path
-    end
-
     @users = User.all
   end
 
@@ -14,5 +11,12 @@ class UserAdminController < ApplicationController
     user.ban
 
     redirect_to user_admin_index_path
+  end
+
+  private
+  def check_admin
+    if !current_user or !current_user.is_admin
+      redirect_to site_index_path
+    end
   end
 end
