@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   post 'registrations/create'
   get 'registrations/update'
   devise_for :users
+
   get 'documentation/index'
+  get 'documentation/user_profiles'
+
   get 'basics/index'
   get 'ps2/index'
   get 'ps2/quotation'
