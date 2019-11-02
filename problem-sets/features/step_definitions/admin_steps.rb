@@ -45,3 +45,6 @@ Then("I should see the user banned") do
   expect(page).to have_link 'Unban', href: user_admin_ban_user_path(:user_id => @user.id)
 end
 
+Then("I should see user statistics") do
+  expect(page).to have_content 'Total Users Admin Users Banned Users 2 1 0'
+end
