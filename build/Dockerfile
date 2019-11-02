@@ -1,5 +1,8 @@
 FROM ruby:2.6.3
 
+ENV http_proxy http://192.41.170.23:3128/
+ENV https_proxy http://192.41.170.23:3128/
+
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev \
             postgresql sudo curl
 
