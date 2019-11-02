@@ -17,3 +17,10 @@ Feature: Admin
     When I click ban user
     Then I should be redirected to the admin page
     And I should see the user banned
+
+  Scenario: An admin user should be able to see User Statistics
+    Given I am an admin user
+    And I am signed in
+    And there are registered users
+    When I visit the user management page
+    Then I should see user statistics

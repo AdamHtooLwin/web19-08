@@ -28,3 +28,23 @@ Then("I should see all the users currently registered") do
   expect(page).to have_content "#{@user.first_name}"
   expect(page).to have_content "#{@user.last_name}"
 end
+
+Given("there is an unbanned user") do
+  expect(page).to have_link 'Ban'
+end
+
+When("I click ban user") do
+  find_link('Ban', href: user_admin_ban_user_path(:user_id => @user.id)).click
+end
+
+Then("I should be redirected to the admin page") do
+  expect(page).to have_current_path(user_admin_index_path)
+end
+
+Then("I should see the user banned") do
+  expect(page).to have_link 'Unban', href: user_admin_ban_user_path(:user_id => @user.id)
+end
+
+Then("I should see user statistics") do
+  expect(page).to have_content 'Total Users Admin Users Banned Users 2 1 0'
+end
