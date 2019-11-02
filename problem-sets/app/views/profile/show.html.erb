@@ -1,6 +1,6 @@
-<h1>Profile#show</h1>
-<p>Find me in app/views/profile/show.html.erb</p>
-
+<h1>Edit your profile</h1>
+<p></p>
+<div class="jumbotron" id="edit-avatar">
 <% if !current_user.avatar.attached? %>
   <%= image_tag(asset_path("default/missing.png"), :size => "300x300", :crop => :fill) %>
 <% else %>
@@ -12,16 +12,10 @@
   <%= form.file_field :avatar %>
   <%= form.submit "Change Profile Picture" %>
 <% end %>
+</div>
 
 
-
-
-
-
-
-
-
-<div class="container"><div class="jumbotron">
+<div class="container"><div class="jumbotron" id="edit-account">
   <h3>Edit account</h3>
   <%= form_with local: true, url: profile_update_path do |form| %>
     <%= form.hidden_field :id, value: current_user.id %>
