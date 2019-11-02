@@ -44,9 +44,9 @@
             </td>
             <td>
               <% if user.is_banned %>
-                <%= link_to "Unban", user_admin_ban_user_path(:user_id => user.id), :method => "patch" %> <span class="glyphicon glyphicon-remove" style="color: red"></span>
+                <%= link_to "Unban", user_admin_ban_user_path(:user_id => user.id), :method => "patch", id: "ban-#{user.id}" %> <span class="glyphicon glyphicon-remove" style="color: red"></span>
               <% else %>
-                <%= link_to "Ban", user_admin_ban_user_path(:user_id => user.id), :method => "patch" %> <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                <%= link_to "Ban", user_admin_ban_user_path(:user_id => user.id), :method => "patch", id: "ban-#{user.id}" %> <span class="glyphicon glyphicon-ok" style="color: green"></span>
               <% end %>
             </td>
           </tr>
