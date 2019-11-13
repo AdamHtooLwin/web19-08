@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group: one
+  user: one
+  item: one
+  quantity: 9.99
+
+two:
+  group: two
+  user: two
+  item: two
+  quantity: 9.99

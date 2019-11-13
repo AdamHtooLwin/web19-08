@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :comments
+  resources :user_groups
+  resources :needs
+  resources :groups
+  resources :items
   get 'user_admin/index'
   patch 'user_admin/ban_user'
 
