@@ -10,6 +10,7 @@ pipeline {
             steps {
                 sh 'ruby --version'
 		sh 'cat /etc/passwd'
+		sh 'whoami'
             }
         }
 	
