@@ -6,11 +6,8 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
-  # def ban
-  #   if !self.is_banned
-  #     self.is_banned = true
-  #   end
-  # end
+  has_many :user_groups
+  has_many :groups, through: :user_groups
 
   def ban
     if self.is_banned
