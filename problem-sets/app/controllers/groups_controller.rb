@@ -17,6 +17,15 @@ class GroupsController < ApplicationController
     @group = Group.new
   end
 
+  def get_users
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: User.where('email ilike ?', "%#{params[:q]}%")
+                         .select('id, email as name')
+      }
+    end  end
+
   # GET /groups/1/edit
   def edit
   end

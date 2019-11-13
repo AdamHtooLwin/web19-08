@@ -17,8 +17,11 @@
   </div>
 
   <div class="field">
-    <%= form.label :admin_id %>
-    <%= form.text_field :admin_id %>
+  <%= form_tag get_users_path, method: "get" do %>
+    <%= label_tag(:search_user, "Search: ") %>
+    <%= text_field_tag(:search_user) %>
+    <%#= submit_tag("Search") %>
+  <% end %>
   </div>
 
   <div class="actions">
