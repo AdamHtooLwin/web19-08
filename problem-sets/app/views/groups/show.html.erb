@@ -7,7 +7,7 @@
 
 <p>
   <strong>Admin:</strong>
-  <%= @group.admin %>
+  <%= @group.user.first_name %>
 </p>
 
 <%= link_to 'Edit', edit_group_path(@group) %> |

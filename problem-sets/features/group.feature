@@ -6,7 +6,7 @@ Feature: Group Creation
     Given I am an already registered user
     And I am signed in
     And I visit the home page
-    Then I should see a create group form
+    Then I should see link to the create group page
     When I submit the form
     Then I should be redirected to the group home page
 
