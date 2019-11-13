@@ -15,4 +15,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.tokeninput
+//= require jquery.turbolinks
 //= require_tree .

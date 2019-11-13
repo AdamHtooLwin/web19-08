@@ -11,7 +11,7 @@
       <div class="jumbotron"><h2>Dashboard Under Construction!</h2><br>
         <%= link_to current_user.first_name, "/profile/show" %>
         <div>
-          <%= link_to "Create a group", new_group_path %>
+          <%= link_to "Create a group", new_group_path, data: { turbolinks: false } %>
         </div>
       </div>
     </div>

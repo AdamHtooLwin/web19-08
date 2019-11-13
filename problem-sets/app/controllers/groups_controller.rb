@@ -18,13 +18,32 @@ class GroupsController < ApplicationController
   end
 
   def get_users
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: User.where('email ilike ?', "%#{params[:q]}%")
-                         .select('id, email as name')
-      }
-    end  end
+    if params[:name].blank?
+      respond_to do |format|
+        format.html
+        format.json {
+          render json: User.where('email ilike ?', "%#{params[:q]}%")
+                           .select('id, email as name')
+        }
+      end
+    else
+
+      group = Group.new
+      group.name = params[:name]
+      group.user = current_user
+      group.save
+
+      admin_user_group = UserGroup.create(user: current_user, group: @group)
+
+      users = User.where(id: params[:search_user].split(","))
+
+      users.each do |user|
+        UserGroup.create(user: user, group: group)
+      end
+
+      redirect_to root_path
+    end
+end
 
   # GET /groups/1/edit
   def edit
