@@ -7,44 +7,42 @@
     </div>
   <% else %>
 
-    <div class="container">
-      <div class="jumbotron"><h2>Dashboard Under Construction!</h2><br>
-        <%= link_to current_user.first_name, "/profile/show" %>
-        <div>
-          <%= link_to "Create a group", new_group_path, data: { turbolinks: false } %>
-        </div>
+    <div class="container" style="width:1000px;">
+      <div class="jumbotron" style="width:400px; height: auto; float:left;"><h2>Welcome</h2><br>
+        <%= link_to "My Profile", "/profile/show" %>
+        <br>
+        <%= link_to "Create a group", new_group_path, data: { turbolinks: false } %>
+      </div>
+      <div class="jumbotron" style="width: 500px; height: auto; float:right;"><h2>My Groups</h2><br>
+        <table cellpadding="10" cellspacing="10">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Admin</th>
+            <th colspan="3"></th>
+          </tr>
+          </thead>
+
+          <tbody>
+            <% if !@groups.nil? %>
+              <% @groups.each do |group| %>
+                <tr>
+                  <td><%= group.name %></td>
+                  <td><%= group.user.first_name %></td>
+                  <td><%= link_to 'Show', group %></td>
+                  <% if group.user == current_user %>
+                    <td><%= link_to 'Edit', edit_group_path(group) %></td>
+                    <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br>
       </div>
     </div>
-    <h1>Groups</h1>
-
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Admin</th>
-        <th colspan="3"></th>
-      </tr>
-      </thead>
-
-      <tbody>
-        <% if !@groups.nil? %>
-          <% @groups.each do |group| %>
-            <tr>
-              <td><%= group.name %></td>
-              <td><%= group.user.first_name %></td>
-              <td><%= link_to 'Show', group %></td>
-              <td><%= link_to 'Edit', edit_group_path(group) %></td>
-              <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-
-    <br>
-
-    <%= link_to 'New Group', new_group_path %>
-
   <% end %>
 <% end %>
 

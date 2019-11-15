@@ -10,5 +10,19 @@
   <%= @group.user.first_name %>
 </p>
 
+<div>
+  <p>
+
+  <strong>Members</strong>
+  <br>
+  <% @username.each do |user| %>
+    <%= user.first_name  %>
+    <%= user.last_name %>
+    <%= user.email %>
+    <br>
+  <% end %>
+  </p>
+</div>
+
 <%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+<%= link_to 'Back', :back %>
