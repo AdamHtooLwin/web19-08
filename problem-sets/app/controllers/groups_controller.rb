@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :check_group_admin, only: [:edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
@@ -94,6 +95,14 @@ end
   end
 
   private
+
+    def check_group_admin
+      if @group.user != current_user
+        redirect_back(fallback_location: root_path)
+      end
+    end
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_group
       @group = Group.find(params[:id])
