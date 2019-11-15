@@ -22,10 +22,6 @@ When("I submit the form") do
   click_button("Create Group")
 end
 
-Then("I should be redirected to the home page") do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
 Then("I should see my group created") do
   expect(page).to have_content @group.name
 end
