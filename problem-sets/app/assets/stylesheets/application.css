@@ -30,8 +30,6 @@ body {
     background-color: #f5f5f5;
 }
 
-@import "bootstrap";
-
 .message-wr {
     height: 75vh;
     margin: auto;
