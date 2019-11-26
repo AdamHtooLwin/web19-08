@@ -12,6 +12,9 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     @username = @group.users
+
+    @messages = Message.where(group: @group).order(:created_at).last(50)
+    @message = current_user.messages.new
   end
 
   # GET /groups/new
@@ -35,7 +38,7 @@ class GroupsController < ApplicationController
       group.user = current_user
       group.save
 
-      admin_user_group = UserGroup.create(user: current_user, group: @group)
+      admin_user_group = UserGroup.create(user: current_user, group: group)
 
       users = User.where(id: params[:search_user].split(","))
 

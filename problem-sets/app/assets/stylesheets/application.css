@@ -29,3 +29,84 @@ body {
     height: 60px;
     background-color: #f5f5f5;
 }
+
+@import "bootstrap";
+
+.message-wr {
+    height: 75vh;
+    margin: auto;
+    width: 80vw;
+}
+.messages{
+    background-color: #2b3e50;
+    box-shadow: 0 0 0 5px #f4f2ed inset;
+    box-sizing: border-box;
+    height: 87%;
+    overflow: scroll;
+    padding: 20px;
+}
+.messages-table{
+    display: table;
+    width: 100%;
+}
+.message{
+    line-height: 1.6;
+    display: table-row;
+
+}
+.message last-child{
+    margin-bottom: 10px;
+}
+.message div{
+    display: table-cell;
+    padding: 13px 10px 10px;
+}
+.message-user{
+    color: #f0ad4e;
+    font-size: 13px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.message-content{
+    color: #f0ad4e;
+    width: 100%;
+}
+.message-input {
+    background-color: rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+    height: 13%;
+    padding: 0 5px 5px;
+}
+.message-input form{
+    height: 100%;
+}
+.message-input textarea{
+    height: 100%;
+    width: 84.5%;
+}
+.message-input input{
+    float: right;
+    height: 100%;
+    vertical-align: top;
+    width: 14.5%;
+}
+
+button, input[type="submit"]{
+    background-color: #7292b0;
+    border: 0;
+    box-shadow: 0 3px 0 0 rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    color: #fcfaf5;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 10px;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+}
+button, input[type="submit"]  hover {
+    background-color: #eeaf3a;
+}
+button, input[type="submit"]  active {
+    background-color: #333;
+}

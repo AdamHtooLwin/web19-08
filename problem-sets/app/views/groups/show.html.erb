@@ -1,28 +1,40 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
 
-<p>
-  <strong>Name:</strong>
-  <%= @group.name %>
-</p>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Admin:</strong>
-  <%= @group.user.first_name %>
-</p>
-
-<div>
   <p>
-
-  <strong>Members</strong>
-  <br>
-  <% @username.each do |user| %>
-    <%= user.first_name  %>
-    <%= user.last_name %>
-    <%= user.email %>
-    <br>
-  <% end %>
+    <strong>Name:</strong>
+    <%= @group.name %>
   </p>
+
+  <p>
+    <strong>Admin:</strong>
+    <%= @group.user.first_name %>
+  </p>
+
+  <div>
+    <p>
+
+    <strong>Members</strong>
+    <br>
+    <% @username.each do |user| %>
+      <%= user.first_name  %>
+      <%= user.last_name %>
+      <%= user.email %>
+      <br>
+    <% end %>
+    </p>
+  </div>
+
+  <%= link_to 'Edit', edit_group_path(@group) %> |
+  <%= link_to 'Back', :back %>
+
 </div>
 
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', :back %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="message-wr">
+  <%= render 'messages' %>
+  <%= render 'message_form' %>
+</div>
