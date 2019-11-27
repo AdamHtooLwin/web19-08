@@ -25,6 +25,25 @@
     <% end %>
     </p>
   </div>
+  <div>
+    <strong>Add members</strong>
+    <div class="field">
+      <%= form_tag add_users_path, id: "add_users_in_a_group_form", method: "post" do %>
+<!--        <div class="field">-->
+          <%#= label_tag(:name, "Name: ") %>
+          <%#= text_field_tag(:name) %>
+<!--        </div>-->
+        <%= hidden_field_tag 'group_id', @group.id %>
+        <div class="field">
+          <% label_tag(:search_user, "Search: ") %>
+          <%= text_field_tag(:search_user) %>
+        </div>
+        <%= submit_tag("Add") %>
+
+      <% end %>
+    </div>
+
+  </div>
 
   <%= link_to 'Edit', edit_group_path(@group) %> |
   <%= link_to 'Back', :back %>
