@@ -25,11 +25,13 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = current_user.messages.new(message_params)
+    @group = Group.find(message_params[:group_id])
+
     if @message.save
-      ActionCable.server.broadcast 'room_channel',
-                                   content: @message.content,
-                                   first_name: @message.user.first_name
-      # redirect_to messages_url
+      # ActionCable.server.broadcast 'room_channel',
+      #                              content: @message.content,
+      #                              first_name: @message.user.first_name
+      redirect_to @group
     else
       render 'index'
     end

@@ -29,12 +29,20 @@
   <%= link_to 'Edit', edit_group_path(@group) %> |
   <%= link_to 'Back', :back %>
 
+  <hr>
+
 </div>
 
+<div class="container">
+  <div id="back" class="jumbotron">
+    <h3>Comments</h3>
 
-<p id="notice"><%= notice %></p>
 
-<div class="message-wr">
-  <%= render 'messages' %>
-  <%= render 'message_form' %>
+  <p id="notice"><%= notice %></p>
+
+  <div class="message-wr">
+    <%= render 'messages' %>
+    <%= render 'message_form' %>
+  </div>
+  </div>
 </div>

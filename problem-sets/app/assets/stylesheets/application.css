@@ -31,7 +31,7 @@ body {
 }
 
 .message-wr {
-    height: 75vh;
+    height: 50vh;
     margin: auto;
     width: 80vw;
 }
@@ -39,7 +39,7 @@ body {
     background-color: #2b3e50;
     box-shadow: 0 0 0 5px #f4f2ed inset;
     box-sizing: border-box;
-    height: 87%;
+    height: 55%;
     overflow: scroll;
     padding: 20px;
 }

@@ -1,5 +1,5 @@
 <div class="message-input">
-  <%= form_for(@message, remote: true) do |f| %>
+  <%= form_for(@message, local: true) do |f| %>
     <%= f.text_area :content %>
     <%= f.hidden_field :group_id, value: @group.id %>
     <%= f.submit "Send" %>
