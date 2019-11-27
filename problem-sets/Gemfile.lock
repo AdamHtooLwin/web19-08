@@ -51,6 +51,9 @@ GEM
     arel (9.0.0)
     backports (3.15.0)
     bcrypt (3.1.13)
+    best_in_place (3.1.1)
+      actionpack (>= 3.2)
+      railties (>= 3.2)
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
@@ -299,6 +302,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  best_in_place
   bootsnap (>= 1.1.0)
   byebug
   cancancan

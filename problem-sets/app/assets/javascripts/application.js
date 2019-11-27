@@ -16,4 +16,7 @@
 //= require jquery_ujs
 //= require jquery.tokeninput
 //= require jquery.turbolinks
+//= require best_in_place
+//= require best_in_place.purr
+//= require jquery.purr
 //= require_tree .
