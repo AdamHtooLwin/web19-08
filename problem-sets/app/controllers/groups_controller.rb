@@ -48,7 +48,26 @@ class GroupsController < ApplicationController
 
       redirect_to root_path
     end
-end
+  end
+
+  def add_users
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: User.where('email ilike ?', "%#{params[:q]}%")
+                         .select('id, email as name')
+      }
+    end
+
+    group = Group.find(params[:group_id])
+    users = User.where(id: params[:search_user].split(","))
+    puts group.name
+    users.each do |user|
+      UserGroup.create(user: user, group: group)
+    end
+    redirect_to root_path
+  end
+
 
   # GET /groups/1/edit
   def edit
@@ -113,6 +132,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name)
+      params.require(:group).permit(:name, :group_id)
     end
 end

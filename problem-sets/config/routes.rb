@@ -39,5 +39,7 @@ Rails.application.routes.draw do
   get 'basics' => 'basics#index'
   get 'documentation' => 'documentation#index'
   get 'get_users' => 'groups#get_users'
+  get 'add_users' => 'groups#add_users'
+  post 'add_users' => 'groups#add_users'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
