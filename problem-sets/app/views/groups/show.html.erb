@@ -3,8 +3,10 @@
   <p id="notice"><%= notice %></p>
 
   <p>
-    <strong>Name:</strong>
-    <%= best_in_place @group, :name %>
+<!--    <strong>Name:</strong>-->
+    <h2>
+      <%= best_in_place @group, :name %>
+    </h2>
     <%#= @group.name %>
   </p>
 
@@ -22,7 +24,9 @@
       <%= user.first_name  %>
       <%= user.last_name %>
       <%= user.email %>
-      <br>
+        <% current_usergroup = user.user_groups.find_by(group_id: @group.id) %>
+        <%= link_to "Remove", user_group_path(current_usergroup), method: :delete, data:{confirm: 'Are you sure?'}%>
+        <br>
     <% end %>
     </p>
   </div>
