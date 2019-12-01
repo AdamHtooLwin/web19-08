@@ -22,4 +22,10 @@ FactoryBot.define do
     name { "SV90" }
     user_id { 2 }
   end
+
+  factory :usergroup1, class: UserGroup do
+    id { 1 }
+    group_id { 1 }
+    user_id { 2 }
+  end
 end
