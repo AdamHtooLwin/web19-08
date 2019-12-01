@@ -20,3 +20,13 @@ Feature: User
     Then I should see the login form
     When I fill in my credentials in Login form and click on “Login” button
     Then I should be redirected to my user page.
+
+  Scenario:  An existing user visiting our application page should be able to edit on the profile
+
+    Okay
+    Given I am an already registered user
+    And I am signed in as a normal user
+    And I visit the profile page
+    Then I should see the edit account form
+    When I fill in my credentials in Edit Account form and click on “SAVE” button
+    Then I should be redirected to my user page.

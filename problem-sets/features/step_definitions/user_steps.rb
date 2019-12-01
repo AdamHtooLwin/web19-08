@@ -47,3 +47,25 @@ Then("I should be redirected to my user page.") do
   expect(page).to have_content 'Welcome'
   expect(page).to have_content 'Sign out'
 end
+
+And("I am signed in as a normal user") do
+  visit('/')
+  fill_in "login_email", with: @user1.email
+  fill_in "login_password", with: @user1.password
+  click_button 'Log In'
+end
+
+And("I visit the profile page") do
+  visit '/profile/show'
+end
+
+Then("I should see the edit account form") do
+  expect(page).to have_selector('form#edit_account')
+end
+
+When("I fill in my credentials in Edit Account form and click on “SAVE” button") do
+  fill_in 'first_name', with: "Suprava"
+  fill_in 'last_name', with: "Sahoo"
+  fill_in 'email', with: "s@saj.com"
+  click_button 'Save'
+end
