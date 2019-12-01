@@ -17,7 +17,7 @@
 
 <div class="container"><div class="jumbotron" id="edit-account">
   <h3>Edit account</h3>
-  <%= form_with local: true, url: profile_update_path do |form| %>
+  <%= form_with local: true, html: { id: "edit_account" }, url: profile_update_path do |form| %>
     <%= form.hidden_field :id, value: current_user.id %>
     <div class = input_group>
       <label>
