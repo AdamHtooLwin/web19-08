@@ -72,4 +72,32 @@ Then("I should see the user added") do
   expect(page).to have_content @secondary_user.email
 end
 
+Given("I am part of a group") do
+  @group = FactoryBot.create :group1
+  @usergroup = FactoryBot.create :usergroup1
+end
+
+Given("I visit the group home page") do
+  visit '/'
+  find_link('Show', href: group_path(@group)).click
+end
+
+Then("I should see a Comments section") do
+  expect(page).to have_content "Comments"
+end
+
+Then("I should see a Comments form") do
+  expect(page).to have_selector('form#new_message')
+end
+
+When("I fill in and submit the comment form") do
+  fill_in "message_content", with: "Hello it's me!"
+  click_button("Send")
+end
+
+Then("I should see my comment created") do
+  expect(page).to have_content "Hello it's me!"
+end
+
+
 

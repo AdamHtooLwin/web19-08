@@ -28,3 +28,14 @@ Feature: Group Creation
     When I click on submit
     Then I should be redirected to the group home page
     Then I should see the user added
+
+  Scenario: A user should be able to leave comments in a group
+
+    Given I am an already registered user
+    And I am signed in as a regular user
+    And I am part of a group
+    And I visit the group home page
+    Then I should see a Comments section
+    And I should see a Comments form
+    When I fill in and submit the comment form
+    Then I should see my comment created
