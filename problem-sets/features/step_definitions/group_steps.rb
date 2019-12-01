@@ -30,6 +30,23 @@ When("I click on the link") do
   find_link('Create a group', href: new_group_path).click
 end
 
+When ("I click on the show link")do
+  visit '/'
+  find_link('Show', href: group_path(@group)).click
+end
+
+And( "I should see the remove button" ) do
+  expect(page).to have_link("Remove", href: user_group_path(@group_user_group))
+end
+
+And("I want to remove from the  group")do
+  click_link("Remove")
+end
+
+Then(" Then I should not see the group name ")do
+  expect(page).not_to have_link("Remove")
+end
+
 Given("I am the owner of a group") do
   @group = FactoryBot.create :group1
   @usergroup = FactoryBot.create :usergroup1
@@ -98,6 +115,46 @@ end
 Then("I should see my comment created") do
   expect(page).to have_content "Hello it's me!"
 end
+
+Given("there is another group user") do
+  @group_user = FactoryBot.create :to_be_removed_user
+  @group_user_group = FactoryBot.create :to_be_removed_user_group
+end
+
+When("I click on the remove button") do
+  find_link("Remove", href: user_group_path(@group_user_group)).click
+end
+
+Then("I should not see the user's name") do
+  expect(page).not_to have_content @group_user.first_name
+end
+
+Given("I am part of a group but not the admin") do
+  @group_owner = FactoryBot.create :group_owner
+  @group = FactoryBot.create :leave_group
+  @group_owner_user_group = FactoryBot.create :group_owner_user_group
+  @leave_group_user_group = FactoryBot.create :leave_group_user_group
+end
+
+Then("I should see the group's name") do
+  visit '/'
+  expect(page).to have_content @group.name
+end
+
+When("I should see the leave button") do
+  find_link('Leave')
+end
+
+When("I click on the leave button") do
+  find_link('Leave').click
+end
+
+Then("I should not see the group's name anymore") do
+  expect(page).not_to have_content @group.name
+end
+
+
+
 
 
 
