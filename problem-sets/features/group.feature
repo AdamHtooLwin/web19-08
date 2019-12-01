@@ -30,3 +30,12 @@ Feature: Group Creation
 #    When I click on submit
 #    Then I should be redirected to the group home page
 #    Then I should see the user added
+
+  Scenario: An existing user should be able to remove from the group.
+
+    Given I am an already registered user
+    And I am signed in as a regular user
+    And I am part of a group
+    When I click on the show link
+    And I should see the remove button
+    Then I should not see the group name

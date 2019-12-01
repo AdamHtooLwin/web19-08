@@ -30,3 +30,35 @@ When("I click on the link") do
   find_link('Create a group', href: new_group_path).click
 end
 
+And("I am part of a group")do
+  @group = FactoryBot.create :group1
+  @user1group1 = FactoryBot.create :user1group1
+end
+
+When ("I click on the show link")do
+  visit '/'
+  find_link('Show', href: group_path(@group)).click
+end
+
+And( "I should see the remove button" ) do
+  expect(page).to have_link("Remove")
+end
+
+And("I want to remove from the  group")do
+  click_link("Remove")
+end
+
+Then(" Then I should not see the group name ")do
+  expect(page).not_to have_link("Remove")
+end
+
+
+
+
+
+
+
+
+
+
+
