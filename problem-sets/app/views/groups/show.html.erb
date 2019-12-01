@@ -3,16 +3,33 @@
   <p>
   <h2>
     <%= best_in_place @group, :name %>
-  </h2><hr>
+  </h2>
+  <div id="group_status">
+    <h3>
+      <%= @group.status%>
+      <% if current_user == @group.user %>
+        <% if @group.status == "Unlocked" %>
+          |<%= link_to "Lock", lock_group_path(id: @group.id), method: :post, data:{confirm: 'Are you sure?'} %>
+        <% else %>
+          |<%= link_to "UnLock", unlock_group_path(id: @group.id), method: :post, data:{confirm: 'Are you sure?'} %>
+        <% end %>
+        <% if @group.status == "Locked" %>
+          |<%= link_to "Resolve", resolve_needs_path(id: @group.id), method: :post, data:{confirm: 'Are you sure?'} %>
+        <% end %>
+      <% end %>
+    </h3>
+  </div>
+  <hr>
   </p>
 </div>
 
-<div class="container">
-  <%= render 'need' %>
-  <%= render 'item' %>
 
-  <hr>
-</div>
+  <div class="container">
+    <%= render 'need' %>
+    <%= render 'item' %>
+    <hr>
+  </div>
+
 <div class="container">
     <h3>Comments</h3>
     <p>Feel free to leave a comment.</p>

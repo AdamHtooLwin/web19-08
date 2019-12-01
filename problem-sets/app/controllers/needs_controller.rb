@@ -10,6 +10,7 @@ class NeedsController < ApplicationController
   # GET /needs/1
   # GET /needs/1.json
   def show
+    @needs = Need.where.(status: !NIL)
   end
 
   # GET /needs/new
@@ -21,24 +22,29 @@ class NeedsController < ApplicationController
   def edit
   end
 
+  def resolve
+    @needs = Need.where(:group_id => params[:id])
+    @needs.each do |need|
+      need.status = "Resolved"
+      need.update(status: "Resolved")
+    end
+    redirect_to controller: 'groups', action: 'show', id: params[:id], notice: 'The needs were successfully resolved'
+  end
   # POST /needs
   # POST /needs.json
   def create
     group_id = need_params[:group_id]
     user_id = need_params[:user_id]
     item_id = Item.find_by_name(need_params[:item_id]).id
-    target_need = Need.where(["user_id = ? and group_id = ? and item_id = ?", user_id, group_id, item_id])
-    puts "==========================================="
-    puts target_need
-    puts "==========================================="
+    target_need = Need.where(["user_id = ? and group_id = ? and item_id = ? and status = ?", user_id, group_id, item_id, "Unresolved"])
     if not(target_need.empty?)
-      puts "=================================hey chaky=============================================="
-      sum = Need.where(["item_id = ? and user_id = ?",  item_id, user_id]).sum(:quantity).to_s.to_d + need_params[:quantity].to_s.to_d
+      sum = target_need.sum(:quantity).to_s.to_d + need_params[:quantity].to_s.to_d
       target_need.update(:quantity => sum)
       redirect_to controller: 'groups', action: 'show', id: group_id
     else
       @need = Need.new(need_params)
       @need.item_id = item_id
+      @need.status = "Unresolved"
 
       respond_to do |format|
         if @need.save

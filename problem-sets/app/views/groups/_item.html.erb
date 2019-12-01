@@ -1,13 +1,15 @@
-<div id="create_item">
-  <h3>Create new item</h3>
-  <%= form_with model: Item, local: true, url: items_path, method: "post" do |form| %>
-    <%= hidden_field_tag 'group_id', @group.id %>
-    <%= form.text_field(:name, placeholder: "Name", required: true) %>
-    <%= form.number_field(:price, placeholder: "0.0", value: "0.0") %>
-    <%= form.text_field(:description, placeholder: "Description", value: "Description",required: true) %>
-    <%= form.text_field(:unit, placeholder: "Unit", required: true) %>
-    <br>
-    <br>
-    <%= form.submit("Create") %>
-  <% end %>
-</div>
+<% if @group.status == "Unlocked" %>
+  <div id="create_item">
+    <h3>Create new item</h3>
+    <%= form_with model: Item, local: true, url: items_path, method: "post" do |form| %>
+      <%= hidden_field_tag 'group_id', @group.id %>
+      <%= form.text_field(:name, placeholder: "Name", required: true) %>
+      <%= form.number_field(:price, placeholder: "0.0", value: "0.0") %>
+      <%= form.text_field(:description, placeholder: "Description", value: "Description",required: true) %>
+      <%= form.text_field(:unit, placeholder: "Unit", required: true) %>
+      <br>
+      <br>
+      <%= form.submit("Create") %>
+    <% end %>
+  </div>
+<% end %>

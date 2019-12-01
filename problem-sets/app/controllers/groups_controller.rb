@@ -12,23 +12,27 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     @username = @group.users
-    @needs = Need.where(group: @group)
+    @needs = Need.where(group: @group, status: "Unresolved")
 
     items = @needs.pluck(:item_id).uniq
 
     @group_needs = []
 
-    items.each do |item|
-      item = Item.find(item)
-      needs = @needs.where(item_id: item)
-      sum = needs.sum(:quantity)
+    if !items.empty?
 
-      dict = {
-          :item => item.name,
-          :sum => sum
-      }
+      items.each do |item|
+        item = Item.find(item)
+        needs = @needs.where(item_id: item)
+        sum = needs.sum(:quantity)
 
-      @group_needs.append(dict)
+        dict = {
+            :item => item.name,
+            :sum => sum
+        }
+
+        @group_needs.append(dict)
+      end
+
     end
 
     @messages = Message.where(group: @group).order(:created_at).last(50)
@@ -132,6 +136,20 @@ class GroupsController < ApplicationController
       format.html { redirect_to root_path, notice: 'Group was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def lock_group
+    @group = Group.find_by_id(params[:id])
+    @group.status = "Locked"
+    @group.save
+    redirect_to @group
+  end
+
+  def unlock_group
+    @group = Group.find_by_id(params[:id])
+    @group.status = "Unlocked"
+    @group.save
+    redirect_to @group
   end
 
   private

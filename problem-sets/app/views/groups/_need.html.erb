@@ -24,14 +24,16 @@
 
     <tbody>
     <% @needs.each do |need| %>
-      <% if need.group == @group %>
+      <% if need.group == @group && need.status != "Resolved"%>
         <tr>
           <td><%= need.user.first_name %></td>
           <td><%= need.item.name %></td>
           <td><%= need.quantity %></td>
 <!--          <td><%#= link_to 'Show', need %></td>-->
 <!--          <td><%#= link_to 'Edit', edit_need_path(need) %></td>-->
-          <td><%= link_to 'Cancel', need_path(id:need.id, group_id: @group.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% if @group.status == "Unlocked" %>
+            <td><%= link_to 'Cancel', need_path(id:need.id, group_id: @group.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
         </tr>
       <% end %>
     <% end %>
@@ -86,17 +88,18 @@
 
 
 
+<% if @group.status == "Unlocked" %>
 
-
-<div id="create_need">
-  <h3>Create new need</h3>
-  <%= form_with(model:Need, method: "post", local: true) do |form| %>
-    <%= form.hidden_field :group_id, value: @group.id %>
-    <%= form.hidden_field :user_id, value: current_user.id %>
-    <%= form.select :item_id, Item.pluck(:name).uniq, include_blank: false %>
-    <%= form.number_field(:quantity, placeholder: "0.0", required: true) %>
-    <br>
-    <br>
-    <%= form.submit("Create") %>
-  <% end %>
-</div>
+  <div id="create_need">
+    <h3>Create new need</h3>
+    <%= form_with(model:Need, method: "post", local: true) do |form| %>
+      <%= form.hidden_field :group_id, value: @group.id %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+      <%= form.select :item_id, Item.pluck(:name).uniq, include_blank: false %>
+      <%= form.number_field(:quantity, placeholder: "0.0", required: true) %>
+      <br>
+      <br>
+      <%= form.submit("Create") %>
+    <% end %>
+  </div>
+<% end %>

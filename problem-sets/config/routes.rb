@@ -42,5 +42,8 @@ Rails.application.routes.draw do
   get 'add_users' => 'groups#add_users'
   post 'add_users' => 'groups#add_users'
   delete 'leave_group' =>'user_groups#leave'
+  post 'lock_group' => 'groups#lock_group'
+  post 'unlock_group' => 'groups#unlock_group'
+  post 'resolve_needs' => 'needs#resolve'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
