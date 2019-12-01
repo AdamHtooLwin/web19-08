@@ -1,0 +1,74 @@
+<div>
+  <h2>Group Needs</h2>
+  <table cellspacing="10">
+    <thead>
+    <tr>
+      <th>User</th>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @needs.each do |need| %>
+      <% if need.group == @group %>
+        <tr>
+          <td><%= need.user %></td>
+          <td><%= need.item %></td>
+          <td><%= need.quantity %></td>
+          <td><%= link_to 'Show', need %></td>
+          <td><%= link_to 'Edit', edit_need_path(need) %></td>
+          <td><%= link_to 'Destroy', need, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+  <br>
+  <hr>
+</div>
+<div>
+  <h3>Create new need</h3>
+  <%= form_with(url: needs_path, method: "post") do |form| %>
+    <%= hidden_field_tag 'group_id', @group.id %>
+    <%= hidden_field_tag 'user_id', current_user.id %>
+    <%#= form.select :category, Quotation.pluck(:category).uniq, include_blank: true %>
+    <%= form.select :item, Item.pluck(:name).uniq, include_blank: false %>
+    <%#= form.text_field(:item, placeholder: "Item", required: true) %>
+    <%= form.number_field(:quantity, in: 0.5..50.0, placeholder: "0.0", required: true) %>
+    <br>
+    <br>
+    <%= form.submit("Create") %>
+  <% end %>
+</div>
+
+<div>
+  <h3>Create new item</h3>
+  <%= form_with model: Item, local: true, url: items_path, method: "post" do |form| %>
+    <%= hidden_field_tag 'group_id', @group.id %>
+    <%= form.text_field(:name, placeholder: "Name", required: true) %>
+    <%= form.number_field(:price, placeholder: "0.0", value: "0.0") %>
+    <%= form.text_field(:description, placeholder: "Description", value: "Description",required: true) %>
+    <%= form.text_field(:unit, placeholder: "Unit", required: true) %>
+    <br>
+    <br>
+    <%= form.submit("Create") %>
+  <% end %>
+</div>
+<!--</div>-->
+
+
+
+<%#= form_with(model: need, local: true) do |form| %>
+  <%# if need.errors.any? %>
+<!--    <div id="error_explanation">-->
+<!--      <h2><%#= pluralize(need.errors.count, "error") %> prohibited this need from being saved:</h2>-->
+
+<!--      <ul>-->
+        <%# need.errors.full_messages.each do |message| %>
+<!--          <li><%#= message %></li>-->
+        <%# end %>
+<!--      </ul>-->
+<!--    </div>-->
+  <%# end %>
