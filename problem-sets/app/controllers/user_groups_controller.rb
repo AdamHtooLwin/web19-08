@@ -79,7 +79,7 @@ class UserGroupsController < ApplicationController
     end
 
     def set_user_group
-      @user_group = UserGroup.find(params[:user_group_id])
+      @user_group = UserGroup.find(params[:id])
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_group_params

@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: Coke
   price: 9.99
   description: MyText
 
 two:
-  name: MyString
-  price: 9.99
+  name: Pepsi
+  price: 19.99
   description: MyText

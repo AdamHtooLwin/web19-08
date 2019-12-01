@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @comment = comments(:one)
+    @user = users(:one)
   end
 
   test "should get index" do
@@ -16,6 +19,8 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create comment" do
+    sign_in users(:one)
+
     assert_difference('Comment.count') do
       post comments_url, params: { comment: { content: @comment.content, group_id: @comment.group_id, user_id: @comment.user_id } }
     end
@@ -34,6 +39,8 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update comment" do
+    sign_in users(:one)
+
     patch comment_url(@comment), params: { comment: { content: @comment.content, group_id: @comment.group_id, user_id: @comment.user_id } }
     assert_redirected_to comment_url(@comment)
   end

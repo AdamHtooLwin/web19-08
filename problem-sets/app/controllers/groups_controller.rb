@@ -119,7 +119,7 @@ class GroupsController < ApplicationController
   private
 
     def check_group_admin
-      if @group.user != current_user
+      if @group.user != current_user and !current_user.is_admin
         redirect_back(fallback_location: root_path)
       end
     end

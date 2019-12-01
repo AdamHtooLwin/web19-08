@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  admin: one
+  id: 1
+  name: SV93
+  user_id: 2
 
 two:
-  name: MyString
-  admin: two
+  id: 2
+  name: CoolKids
+  user_id: 3

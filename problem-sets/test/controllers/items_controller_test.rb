@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class ItemsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @item = items(:one)
+    @group = groups(:one)
   end
 
   test "should get index" do
@@ -17,10 +20,10 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create item" do
     assert_difference('Item.count') do
-      post items_url, params: { item: { description: @item.description, name: @item.name, price: @item.price } }
+      post items_url, params: { group_id: @group.id, item: { description: "Other item's description", name: "Other Item", price: @item.price } }
     end
 
-    assert_redirected_to item_url(Item.last)
+    assert_redirected_to group_url(@group)
   end
 
   test "should show item" do

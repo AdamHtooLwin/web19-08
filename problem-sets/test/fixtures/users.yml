@@ -3,7 +3,7 @@
 # This model initially had no columns defined. If you add columns to the
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
-#
+
 one:
   id: 1
   email: "admin@c.com"
@@ -12,7 +12,6 @@ one:
   first_name: "John"
   last_name: "Doe"
 
-#
 two:
   id: 2
   email: "user@c.com"
@@ -29,3 +28,11 @@ banned:
   first_name: "Banned"
   last_name: "Peters"
   is_banned: true
+
+three:
+  id: 4
+  email: "user3@c.com"
+  encrypted_password: "$2a$10$ZU0x7nDXA1EKbUAjwKTCwegV/yfddZkvfKWEa9/arb5pBQuy/1oFu"
+  is_admin: false
+  first_name: "Mark"
+  last_name: "Hamill"

@@ -1,5 +1,5 @@
 Feature: Group Creation
-  Users should be able to create and join groups
+  Users should be able to create, leave and join groups
 
   Scenario: An existing user should be able to create a group.
 
