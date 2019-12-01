@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     @username = @group.users
-
+    @needs = Need.where(group: @group)
     @messages = Message.where(group: @group).order(:created_at).last(50)
     @message = current_user.messages.new
   end
