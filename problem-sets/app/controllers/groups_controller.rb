@@ -13,6 +13,24 @@ class GroupsController < ApplicationController
   def show
     @username = @group.users
     @needs = Need.where(group: @group)
+
+    items = @needs.pluck(:item_id).uniq
+
+    @group_needs = []
+
+    items.each do |item|
+      item = Item.find(item)
+      needs = @needs.where(item_id: item)
+      sum = needs.sum(:quantity)
+
+      dict = {
+          :item => item.name,
+          :sum => sum
+      }
+
+      @group_needs.append(dict)
+    end
+
     @messages = Message.where(group: @group).order(:created_at).last(50)
     @message = current_user.messages.new
   end

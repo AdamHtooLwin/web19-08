@@ -1,6 +1,6 @@
 <div id="need">
 <div id="user_need">
-  <h3>User Needs</h3>
+  <h3>User Needs</h3><hr>
   <style>
     table, th, td {
       padding: 5px;
@@ -47,7 +47,7 @@
 
 
 <div id="group_need">
-  <h3>Group Needs</h3>
+  <h3>Total Group Needs</h3><hr>
   <style>
     table, th, td {
       padding: 3px;
@@ -62,24 +62,20 @@
   <table cellspacing="10">
     <thead>
     <tr>
-      <th>User</th>
       <th>Item</th>
       <th>Quantity</th>
     </tr>
     </thead>
 
     <tbody>
-    <% @needs.each do |need| %>
-      <% if need.group == @group %>
-        <tr>
-          <td><%= need.user.first_name %></td>
-          <td><%= need.item.name %></td>
-          <td><%= need.quantity %></td>
+    <% @group_needs.each do |need| %>
+      <tr>
+        <td><%= need[:item] %></td>
+        <td><%= need[:sum] %></td>
 <!--          <td><%#= link_to 'Show', need %></td>-->
 <!--          <td><%#= link_to 'Edit', edit_need_path(need) %></td>-->
 <!--          <td><%#= link_to 'Destroy', need, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
-        </tr>
-      <% end %>
+      </tr>
     <% end %>
     </tbody>
   </table>
