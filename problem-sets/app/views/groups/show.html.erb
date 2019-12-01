@@ -21,11 +21,20 @@
     <strong>Members</strong>
     <br>
     <% @username.each do |user| %>
-      <%= user.first_name  %>
-      <%= user.last_name %>
-      <%= user.email %>
+        <%= user.first_name  %>
+        <%= user.last_name %>
+        <%= user.email %>
         <% current_usergroup = user.user_groups.find_by(group_id: @group.id) %>
-        <%= link_to "Remove", user_group_path(current_usergroup), method: :delete, data:{confirm: 'Are you sure?'}%>
+        <%# if user == @group.user && user == current_user %>
+            <%# #if the user is admin and the user is the current_user ##admin wants to leave the group %>
+            <%#= link_to "Leave", admin_leave_group_path(id: current_usergroup), method: :delete, data:{confirm: 'Are you sure?'} %>
+        <% if user != @group.user && user == current_user %>
+            <% #if the user is not admin and the user is the current_user ## normal user wants to leave the group %>
+            <%= link_to "Leave", leave_group_path(id: current_usergroup), method: :delete, data:{confirm: 'Are you sure?'} %>
+        <% elsif current_user == @group.user && not(user == @group.user) %>
+            <% #if the current user is admin and this user instance is not admin ## admin wants to remove other users %>
+            <%= link_to "Remove", user_group_path(current_usergroup), method: :delete, data:{confirm: 'Are you sure?'}%>
+        <% end %>
         <br>
     <% end %>
     </p>
@@ -34,10 +43,6 @@
     <strong>Add members</strong>
     <div class="field">
       <%= form_tag add_users_path, id: "add_users_in_a_group_form", method: "post" do %>
-<!--        <div class="field">-->
-          <%#= label_tag(:name, "Name: ") %>
-          <%#= text_field_tag(:name) %>
-<!--        </div>-->
         <%= hidden_field_tag 'group_id', @group.id %>
         <div class="field">
           <% label_tag(:search_user, "Search: ") %>
@@ -50,13 +55,17 @@
 
   </div>
 
+
   <%= link_to 'Edit', edit_group_path(@group) %> |
   <%= link_to 'Back', :back %>
 
   <hr>
-
 </div>
+<div class="container">
+    <%= render 'need' %>
 
+  <hr>
+</div>
 <div class="container">
   <div id="back" class="jumbotron">
     <h3>Comments</h3>

@@ -1,6 +1,6 @@
 class UserGroupsController < ApplicationController
   before_action :set_user_group, only: [:show, :edit, :update]
-  before_action :set_user_group_delete, only: [:destroy]
+  before_action :set_user_group_delete, only: [:destroy, :leave]
   # GET /user_groups
   # GET /user_groups.json
   def index
@@ -53,9 +53,18 @@ class UserGroupsController < ApplicationController
 
   # DELETE /user_groups/1
   # DELETE /user_groups/1.json
+
+  def leave
+    # temp = @user_group.group
+    @user_group.destroy
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: 'You successfully left the group.' }
+      format.json { head :no_content }
+    end
+  end
+
   def destroy
     temp = @user_group.group
-    puts temp.id
     @user_group.destroy
     respond_to do |format|
       format.html { redirect_to controller: 'groups', action: 'show', id: temp.id , notice: 'User was successfully removed from the group.' }
