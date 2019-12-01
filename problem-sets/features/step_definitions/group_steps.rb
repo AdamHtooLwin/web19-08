@@ -35,6 +35,10 @@ Given("I am the owner of a group") do
   @usergroup = FactoryBot.create :usergroup1
 end
 
+Given("there is another user") do
+  @secondary_user = FactoryBot.create :secondary_user
+end
+
 Then("I should see a link to the group") do
   expect(page).to have_link('Show', href: group_path(@group))
 end
@@ -52,16 +56,20 @@ Then("I should see a search bar to search for other users") do
   expect(page).to have_selector('form#add_users_in_a_group_form')
 end
 
-When("I enter a username in the search bar") do
-  pending # Write code here that turns the phrase above into concrete actions
+When("I enter an email in the search bar") do
+  fill_in "search_user", with: @secondary_user.email
 end
 
 When("I click on submit") do
-  pending # Write code here that turns the phrase above into concrete actions
+  post add_users_path, group_id: @group.id, search_user: @secondary_user.id
+  click_button("Add")
 end
 
 Then("I should see the user added") do
-  pending # Write code here that turns the phrase above into concrete actions
+  find_link('Show', href: group_path(@group)).click
+
+  expect(page).to have_content @secondary_user.first_name
+  expect(page).to have_content @secondary_user.email
 end
 
 

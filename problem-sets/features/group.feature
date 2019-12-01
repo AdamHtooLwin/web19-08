@@ -18,12 +18,13 @@ Feature: Group Creation
     Given I am an already registered user
     And I am signed in as a regular user
     And I am the owner of a group
+    And there is another user
     And I visit the home page
     Then I should see a link to the group
     When I click on the show group link
     Then I should be redirected to the group home page
     Then I should see a search bar to search for other users
-    When I enter a username in the search bar
+    When I enter an email in the search bar
     When I click on submit
     Then I should be redirected to the group home page
     Then I should see the user added
