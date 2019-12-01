@@ -25,19 +25,29 @@ class NeedsController < ApplicationController
   # POST /needs.json
   def create
     group_id = need_params[:group_id]
+    user_id = need_params[:user_id]
     item_id = Item.find_by_name(need_params[:item_id]).id
-    
+    target_need = Need.where(["user_id = ? and group_id = ? and item_id = ?", user_id, group_id, item_id])
+    puts "==========================================="
+    puts target_need
+    puts "==========================================="
+    if not(target_need.empty?)
+      puts "=================================hey chaky=============================================="
+      sum = Need.where(["item_id = ? and user_id = ?",  item_id, user_id]).sum(:quantity).to_s.to_d + need_params[:quantity].to_s.to_d
+      target_need.update(:quantity => sum)
+      redirect_to controller: 'groups', action: 'show', id: group_id
+    else
+      @need = Need.new(need_params)
+      @need.item_id = item_id
 
-    @need = Need.new(need_params)
-    @need.item_id = item_id
-
-    respond_to do |format|
-      if @need.save
-        format.html { redirect_to controller: 'groups', action: 'show', id: group_id, notice: 'Need was successfully created.' }
-        format.json { render :show, status: :created, location: @need }
-      else
-        format.html { render :new }
-        format.json { render json: @need.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @need.save
+          format.html { redirect_to controller: 'groups', action: 'show', id: group_id, notice: 'Need was successfully created.' }
+          format.json { render :show, status: :created, location: @need }
+        else
+          format.html { render :new }
+          format.json { render json: @need.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
