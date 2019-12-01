@@ -36,7 +36,7 @@ When ("I click on the show link")do
 end
 
 And( "I should see the remove button" ) do
-  expect(page).to have_link("Remove")
+  expect(page).to have_link("Remove", href: user_group_path(@group_user_group))
 end
 
 And("I want to remove from the  group")do
@@ -115,6 +115,21 @@ end
 Then("I should see my comment created") do
   expect(page).to have_content "Hello it's me!"
 end
+
+Given("there is another group user") do
+  @group_user = FactoryBot.create :to_be_removed_user
+  @group_user_group = FactoryBot.create :to_be_removed_user_group
+end
+
+When("I click on the remove button") do
+  find_link("Remove", href: user_group_path(@group_user_group)).click
+end
+
+Then("I should not see the user's name") do
+  expect(page).not_to have_content @group_user.first_name
+end
+
+
 
 
 
