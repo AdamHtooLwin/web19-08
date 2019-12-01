@@ -58,6 +58,7 @@ class GroupsController < ApplicationController
       group = Group.new
       group.name = params[:name]
       group.user = current_user
+      group.status = "Unlocked"
       group.save
 
       admin_user_group = UserGroup.create(user: current_user, group: group)
@@ -100,6 +101,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     @group.user = current_user
+    @group.status = "Unlocked"
 
     @user_group = UserGroup.create(user: current_user, group: @group)
 
