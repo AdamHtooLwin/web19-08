@@ -1,5 +1,11 @@
 <h1>Edit your profile</h1>
 <p></p>
+<div class = container>
+  Name:<%= current_user.first_name%>
+       <%= current_user.last_name %><br>
+  Email:<%= current_user.email %>
+</div>
+
 <div class="jumbotron" id="edit-avatar">
 <% if !current_user.avatar.attached? %>
   <%= image_tag(asset_path("default/missing.png"), :size => "300x300", :crop => :fill) %>
