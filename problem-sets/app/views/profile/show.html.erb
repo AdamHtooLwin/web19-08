@@ -1,54 +1,77 @@
-<h1>Edit your profile</h1>
-<p></p>
 <div class = container>
-  Name:<%= current_user.first_name%>
-       <%= current_user.last_name %><br>
-  Email:<%= current_user.email %>
+  <h1>Your profile</h1>
+
+  <table class="table">
+    <h3>User Details</h3>
+
+    <tbody>
+    <tr>
+      <th>Name</th>
+      <td><%= current_user.first_name %> <%= current_user.last_name %></td>
+    </tr>
+
+    <tr>
+      <th>Email</th>
+      <td><%= current_user.email %></td>
+    </tr>
+
+    <tr>
+      <th>Registered on</th>
+      <td><%= current_user.created_at.in_time_zone("Asia/Bangkok") %></td>
+    </tr>
+    </tbody>
+  </table>
+
 </div>
 
-<div class="jumbotron" id="edit-avatar">
-<% if !current_user.avatar.attached? %>
-  <%= image_tag(asset_path("default/missing.png"), :size => "300x300", :crop => :fill) %>
-<% else %>
-  <%= image_tag(url_for(current_user.avatar), :size => "300x300", :crop => :fill) %>
-<% end %>
 
-<%= form_with local: true, :url => { :action => :update_avatar } do |form| %>
-  <%= form.hidden_field :id, value: current_user.id %>
-  <%= form.file_field :avatar %>
-  <%= form.submit "Change Profile Picture" %>
-<% end %>
+<div class="container">
+  <div class="jumbotron" id="edit-avatar">
+    <% if !current_user.avatar.attached? %>
+      <%= image_tag(asset_path("default/missing.png"), :size => "300x300", :crop => :fill) %>
+    <% else %>
+      <%= image_tag(url_for(current_user.avatar), :size => "300x300", :crop => :fill) %>
+    <% end %>
+
+    <%= form_with local: true, :url => { :action => :update_avatar } do |form| %>
+      <%= form.hidden_field :id, value: current_user.id %>
+      <%= form.file_field :avatar %>
+      <%= form.submit "Change Profile Picture" %>
+    <% end %>
+
+    <h3>Edit account</h3>
+    <%= form_with local: true, html: { id: "edit_account" }, url: profile_update_path do |form| %>
+      <%= form.hidden_field :id, value: current_user.id %>
+      <div class = input_group>
+        <label>
+          <%= form.text_field :first_name, placeholder: "First name", :required => true %>
+        </label>
+      </div>
+
+      <div class = input_group>
+        <label>
+          <%= form.text_field :last_name, placeholder: "Last name", :required => true %>
+        </label>
+      </div>
+
+      <div class = input_group>
+        <label>
+          <%= form.email_field :email, placeholder: "Email", :required => true %>
+        </label>
+      </div>
+
+      <div class = input_group>
+        <label>
+          <%= form.submit "Save" %>
+        </label>
+      </div>
+
+    <% end %>
+  </div>
+
+<!--  <div class="jumbotron" id="edit-account">-->
+
+<!--  </div>-->
+
 </div>
-
-
-<div class="container"><div class="jumbotron" id="edit-account">
-  <h3>Edit account</h3>
-  <%= form_with local: true, html: { id: "edit_account" }, url: profile_update_path do |form| %>
-    <%= form.hidden_field :id, value: current_user.id %>
-    <div class = input_group>
-      <label>
-        <%= form.text_field :first_name, placeholder: "First name", :required => true %>
-      </label>
-    </div>
-
-    <div class = input_group>
-      <label>
-        <%= form.text_field :last_name, placeholder: "Last name", :required => true %>
-      </label>
-    </div>
-
-    <div class = input_group>
-      <label>
-        <%= form.email_field :email, placeholder: "Email", :required => true %>
-      </label>
-    </div>
-
-    <div class = input_group>
-      <label>
-        <%= form.submit "Save" %>
-      </label>
-    </div>
-
-  <% end %>
-</div></div>
 <hr>
