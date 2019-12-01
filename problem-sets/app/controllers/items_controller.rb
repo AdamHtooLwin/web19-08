@@ -25,10 +25,11 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(item_params)
+    @group = Group.find(params[:group_id])
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to controller: 'groups', action: 'show', id: params([:group_id]), notice: 'Item was successfully created.' }
+        format.html { redirect_to @group, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new }
@@ -69,7 +70,7 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.permit(:name, :price, :description, :unit)
-      params.require(:name)
+      params.permit(:group_id)
+      params.require(:item).permit(:name, :price, :description, :unit)
     end
 end

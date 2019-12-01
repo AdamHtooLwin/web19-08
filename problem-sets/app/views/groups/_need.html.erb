@@ -1,4 +1,4 @@
-<div class="container">
+<div>
   <h2>Group Needs</h2>
   <table cellspacing="10">
     <thead>
@@ -45,7 +45,7 @@
 
 <div>
   <h3>Create new item</h3>
-  <%= form_with(url: items_path, method: "post") do |form| %>
+  <%= form_with model: Item, local: true, url: items_path, method: "post" do |form| %>
     <%= hidden_field_tag 'group_id', @group.id %>
     <%= form.text_field(:name, placeholder: "Name", required: true) %>
     <%= form.number_field(:price, placeholder: "0.0", value: "0.0") %>
