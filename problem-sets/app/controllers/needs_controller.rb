@@ -24,16 +24,16 @@ class NeedsController < ApplicationController
   # POST /needs
   # POST /needs.json
   def create
+    group_id = need_params[:group_id]
     item_id = Item.find_by_name(need_params[:item_id]).id
-    puts item_id
-    puts "after need_params has been updated"
-    puts need_params
+    
+
     @need = Need.new(need_params)
     @need.item_id = item_id
 
     respond_to do |format|
       if @need.save
-        format.html { redirect_to @need, notice: 'Need was successfully created.' }
+        format.html { redirect_to controller: 'groups', action: 'show', id: group_id, notice: 'Need was successfully created.' }
         format.json { render :show, status: :created, location: @need }
       else
         format.html { render :new }
@@ -59,9 +59,10 @@ class NeedsController < ApplicationController
   # DELETE /needs/1
   # DELETE /needs/1.json
   def destroy
+    temp = params[:group_id]
     @need.destroy
     respond_to do |format|
-      format.html { redirect_to needs_url, notice: 'Need was successfully destroyed.' }
+      format.html { redirect_to controller: 'groups', action: 'show', id: temp , notice: 'Need was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
