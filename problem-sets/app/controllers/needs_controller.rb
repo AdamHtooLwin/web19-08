@@ -24,7 +24,12 @@ class NeedsController < ApplicationController
   # POST /needs
   # POST /needs.json
   def create
+    item_id = Item.find_by_name(need_params[:item_id]).id
+    puts item_id
+    puts "after need_params has been updated"
+    puts need_params
     @need = Need.new(need_params)
+    @need.item_id = item_id
 
     respond_to do |format|
       if @need.save

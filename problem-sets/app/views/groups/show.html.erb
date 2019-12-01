@@ -1,11 +1,34 @@
 <div class="container">
+  <p>
+  <h2>
+    <%= best_in_place @group, :name %>
+  </h2>
+  </p>
+</div>
+
+<div class="container">
+  <%= render 'need' %>
+  <%= render 'item' %>
+
+  <hr>
+</div>
+<div class="container">
+    <h3>Comments</h3>
+    <p>Feel free to leave a comment.</p>
+
+
   <p id="notice"><%= notice %></p>
 
-  <p>
-    <h2>
-      <%= best_in_place @group, :name %>
-    </h2>
-  </p>
+  <div class="message-wr">
+    <%= render 'messages' %>
+    <%= render 'message_form' %>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <p id="notice"><%= notice %></p>
 
   <p>
     <strong>Admin:</strong>
@@ -15,25 +38,25 @@
   <div>
     <p>
 
-    <strong>Members</strong>
-    <br>
-    <% @username.each do |user| %>
+      <strong>Members</strong>
+      <br>
+      <% @username.each do |user| %>
         <%= user.first_name  %>
         <%= user.last_name %>
         <%= user.email %>
         <% current_usergroup = user.user_groups.find_by(group_id: @group.id) %>
         <%# if user == @group.user && user == current_user %>
-            <%# #if the user is admin and the user is the current_user ##admin wants to leave the group %>
-            <%#= link_to "Leave", admin_leave_group_path(id: current_usergroup), method: :delete, data:{confirm: 'Are you sure?'} %>
+        <%# #if the user is admin and the user is the current_user ##admin wants to leave the group %>
+        <%#= link_to "Leave", admin_leave_group_path(id: current_usergroup), method: :delete, data:{confirm: 'Are you sure?'} %>
         <% if user != @group.user && user == current_user %>
-            <% #if the user is not admin and the user is the current_user ## normal user wants to leave the group %>
-            <%= link_to "Leave", leave_group_path(id: current_usergroup), method: :delete, data:{confirm: 'Are you sure?'} %>
+          <% #if the user is not admin and the user is the current_user ## normal user wants to leave the group %>
+          <%= link_to "Leave", leave_group_path(id: current_usergroup), method: :delete, data:{confirm: 'Are you sure?'} %>
         <% elsif current_user == @group.user && not(user == @group.user) %>
-            <% #if the current user is admin and this user instance is not admin ## admin wants to remove other users %>
-            <%= link_to "Remove", user_group_path(current_usergroup), method: :delete, data:{confirm: 'Are you sure?'}%>
+          <% #if the current user is admin and this user instance is not admin ## admin wants to remove other users %>
+          <%= link_to "Remove", user_group_path(current_usergroup), method: :delete, data:{confirm: 'Are you sure?'}%>
         <% end %>
         <br>
-    <% end %>
+      <% end %>
     </p>
   </div>
   <div>
@@ -57,22 +80,4 @@
   <%= link_to 'Back', :back %>
 
   <hr>
-</div>
-<div class="container">
-  <%= render 'need' %>
-  <%= render 'item' %>
-
-  <hr>
-</div>
-<div class="container">
-    <h3>Comments</h3>
-    <p>Feel free to leave a comment.</p>
-
-
-  <p id="notice"><%= notice %></p>
-
-  <div class="message-wr">
-    <%= render 'messages' %>
-    <%= render 'message_form' %>
-  </div>
 </div>

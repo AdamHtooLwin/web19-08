@@ -1,14 +1,19 @@
+<div id="need">
 <div id="user_need">
-  <h2>User Needs</h2>
+  <h3>User Needs</h3>
   <style>
     table, th, td {
-      padding: 20px;
+      padding: 5px;
+      font-size: 15px;
+    }
+    td{
+      width: 100px;
     }
     table {
-      border-spacing: 15px;
+      border-spacing: 10px;
     }
   </style>
-  <table cellspacing="100">
+  <table>
     <thead>
     <tr>
       <th>User</th>
@@ -21,19 +26,18 @@
     <% @needs.each do |need| %>
       <% if need.group == @group %>
         <tr>
-          <td><%= need.user %></td>
-          <td><%= need.item %></td>
+          <td><%= need.user.first_name %></td>
+          <td><%= need.item.name %></td>
           <td><%= need.quantity %></td>
-          <td><%= link_to 'Show', need %></td>
-          <td><%= link_to 'Edit', edit_need_path(need) %></td>
-          <td><%= link_to 'Destroy', need, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<!--          <td><%#= link_to 'Show', need %></td>-->
+<!--          <td><%#= link_to 'Edit', edit_need_path(need) %></td>-->
+          <td><%= link_to 'Cancel', need_path(id:need.id, group_id: @group.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     <% end %>
     </tbody>
   </table>
   <br>
-  <hr>
 </div>
 
 
@@ -43,16 +47,19 @@
 
 
 <div id="group_need">
-  <h2>Group Needs</h2>
+  <h3>Group Needs</h3>
   <style>
     table, th, td {
-      padding: 20px;
+      padding: 3px;
     }
     table {
-      border-spacing: 15px;
+      border-spacing: 0px;
+    }
+    td{
+      width: 150px;
     }
   </style>
-  <table cellspacing="100">
+  <table cellspacing="10">
     <thead>
     <tr>
       <th>User</th>
@@ -65,22 +72,21 @@
     <% @needs.each do |need| %>
       <% if need.group == @group %>
         <tr>
-          <td><%= need.user %></td>
-          <td><%= need.item %></td>
+          <td><%= need.user.first_name %></td>
+          <td><%= need.item.name %></td>
           <td><%= need.quantity %></td>
-          <td><%= link_to 'Show', need %></td>
-          <td><%= link_to 'Edit', edit_need_path(need) %></td>
-          <td><%= link_to 'Destroy', need, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<!--          <td><%#= link_to 'Show', need %></td>-->
+<!--          <td><%#= link_to 'Edit', edit_need_path(need) %></td>-->
+<!--          <td><%#= link_to 'Destroy', need, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
         </tr>
       <% end %>
     <% end %>
     </tbody>
   </table>
   <br>
-  <hr>
 </div>
-
-
+</div>
+<hr>
 
 
 
@@ -88,10 +94,10 @@
 
 <div id="create_need">
   <h3>Create new need</h3>
-  <%= form_with(model:Need, method: "post") do |form| %>
-    <%= hidden_field_tag 'group_id', @group.id %>
-    <%= hidden_field_tag 'user_id', current_user.id %>
-    <%= form.select :item, Item.pluck(:name).uniq, include_blank: false %>
+  <%= form_with(model:Need, method: "post", local: true) do |form| %>
+    <%= form.hidden_field :group_id, value: @group.id %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.select :item_id, Item.pluck(:name).uniq, include_blank: false %>
     <%= form.number_field(:quantity, placeholder: "0.0", required: true) %>
     <br>
     <br>
