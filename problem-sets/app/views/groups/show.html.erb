@@ -1,13 +1,10 @@
 <div class="container">
-
   <p id="notice"><%= notice %></p>
 
   <p>
-<!--    <strong>Name:</strong>-->
     <h2>
       <%= best_in_place @group, :name %>
     </h2>
-    <%#= @group.name %>
   </p>
 
   <p>
@@ -62,7 +59,8 @@
   <hr>
 </div>
 <div class="container">
-    <%= render 'need' %>
+  <%= render 'need' %>
+  <%= render 'item' %>
 
   <hr>
 </div>
