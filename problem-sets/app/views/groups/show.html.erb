@@ -1,13 +1,10 @@
 <div class="container">
-
   <p id="notice"><%= notice %></p>
 
   <p>
-<!--    <strong>Name:</strong>-->
     <h2>
       <%= best_in_place @group, :name %>
     </h2>
-    <%#= @group.name %>
   </p>
 
   <p>
@@ -62,13 +59,14 @@
   <hr>
 </div>
 <div class="container">
-    <%= render 'need' %>
+  <%= render 'need' %>
+  <%= render 'item' %>
 
   <hr>
 </div>
 <div class="container">
-  <div id="back" class="jumbotron">
     <h3>Comments</h3>
+    <p>Feel free to leave a comment.</p>
 
 
   <p id="notice"><%= notice %></p>
@@ -76,6 +74,5 @@
   <div class="message-wr">
     <%= render 'messages' %>
     <%= render 'message_form' %>
-  </div>
   </div>
 </div>

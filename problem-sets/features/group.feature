@@ -39,11 +39,23 @@ Feature: Group Creation
     When I fill in and submit the comment form
     Then I should see my comment created
 
-  Scenario: An existing user should be able to remove from the group.
+  Scenario: An existing group admin should be able to remove a user from the group.
     Given I am an already registered user
     And I am signed in as a regular user
-    And I am part of a group
+    And I am the owner of a group
+    And there is another group user
     When I click on the show link
     And I should see the remove button
-    Then I should not see the group name
+    When I click on the remove button
+    Then I should not see the user's name
+
+  Scenario: A user should be able to leave a group that he is part of.
+    Given I am an already registered user
+    And I am signed in as a regular user
+    And I am part of a group but not the admin
+    Then I should see the group's name
+    When I click on the show link
+    And I should see the leave button
+    When I click on the leave button
+    Then I should not see the group's name anymore
 
