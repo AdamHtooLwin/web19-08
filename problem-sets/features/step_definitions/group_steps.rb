@@ -30,3 +30,74 @@ When("I click on the link") do
   find_link('Create a group', href: new_group_path).click
 end
 
+Given("I am the owner of a group") do
+  @group = FactoryBot.create :group1
+  @usergroup = FactoryBot.create :usergroup1
+end
+
+Given("there is another user") do
+  @secondary_user = FactoryBot.create :secondary_user
+end
+
+Then("I should see a link to the group") do
+  expect(page).to have_link('Show', href: group_path(@group))
+end
+
+When("I click on the show group link") do
+  find_link('Show', href: group_path(@group)).click
+end
+
+
+Then("I should be redirected to the group home page") do
+  expect(page).to have_content @group.name
+end
+
+Then("I should see a search bar to search for other users") do
+  expect(page).to have_selector('form#add_users_in_a_group_form')
+end
+
+When("I enter an email in the search bar") do
+  fill_in "search_user", with: @secondary_user.email
+end
+
+When("I click on submit") do
+  post add_users_path, group_id: @group.id, search_user: @secondary_user.id
+  click_button("Add")
+end
+
+Then("I should see the user added") do
+  find_link('Show', href: group_path(@group)).click
+
+  expect(page).to have_content @secondary_user.first_name
+  expect(page).to have_content @secondary_user.email
+end
+
+Given("I am part of a group") do
+  @group = FactoryBot.create :group1
+  @usergroup = FactoryBot.create :usergroup1
+end
+
+Given("I visit the group home page") do
+  visit '/'
+  find_link('Show', href: group_path(@group)).click
+end
+
+Then("I should see a Comments section") do
+  expect(page).to have_content "Comments"
+end
+
+Then("I should see a Comments form") do
+  expect(page).to have_selector('form#new_message')
+end
+
+When("I fill in and submit the comment form") do
+  fill_in "message_content", with: "Hello it's me!"
+  click_button("Send")
+end
+
+Then("I should see my comment created") do
+  expect(page).to have_content "Hello it's me!"
+end
+
+
+

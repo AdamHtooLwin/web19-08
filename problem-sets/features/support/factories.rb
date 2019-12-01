@@ -17,9 +17,24 @@ FactoryBot.define do
     is_admin { false }
   end
 
+  factory :secondary_user, class: User do
+    id { 3 }
+    first_name { "John" }
+    last_name { "Doe" }
+    email { "jdoe@ait.asia" }
+    password { "password" }
+    is_admin { false }
+  end
+
   factory :group1, class: Group do
     id { 1 }
     name { "SV90" }
+    user_id { 2 }
+  end
+
+  factory :usergroup1, class: UserGroup do
+    id { 1 }
+    group_id { 1 }
     user_id { 2 }
   end
 end
