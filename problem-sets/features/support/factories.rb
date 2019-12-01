@@ -35,6 +35,31 @@ FactoryBot.define do
     is_admin { false }
   end
 
+  factory :leave_group, class: Group do
+    id { 2 }
+    name { "SV91" }
+    user_id { 5 }
+  end
+
+  factory :group_owner, class: User do
+    id { 5 }
+    first_name { "Peter" }
+    last_name { "Dean" }
+    email { "pdean@ait.asia" }
+    password { "password" }
+    is_admin { false }
+  end
+
+  factory :group_owner_user_group, class: UserGroup do
+    group_id { 2 }
+    user_id { 5 }
+  end
+
+  factory :leave_group_user_group, class: UserGroup do
+    group_id { 2 }
+    user_id { 2 }
+  end
+
   factory :to_be_removed_user_group, class: UserGroup do
     group_id { 1 }
     user_id { 4 }

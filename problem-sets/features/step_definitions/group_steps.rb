@@ -129,6 +129,31 @@ Then("I should not see the user's name") do
   expect(page).not_to have_content @group_user.first_name
 end
 
+Given("I am part of a group but not the admin") do
+  @group_owner = FactoryBot.create :group_owner
+  @group = FactoryBot.create :leave_group
+  @group_owner_user_group = FactoryBot.create :group_owner_user_group
+  @leave_group_user_group = FactoryBot.create :leave_group_user_group
+end
+
+Then("I should see the group's name") do
+  visit '/'
+  expect(page).to have_content @group.name
+end
+
+When("I should see the leave button") do
+  find_link('Leave')
+end
+
+When("I click on the leave button") do
+  find_link('Leave').click
+end
+
+Then("I should not see the group's name anymore") do
+  expect(page).not_to have_content @group.name
+end
+
+
 
 
 

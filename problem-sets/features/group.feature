@@ -49,3 +49,13 @@ Feature: Group Creation
     When I click on the remove button
     Then I should not see the user's name
 
+  Scenario: A user should be able to leave a group that he is part of.
+    Given I am an already registered user
+    And I am signed in as a regular user
+    And I am part of a group but not the admin
+    Then I should see the group's name
+    When I click on the show link
+    And I should see the leave button
+    When I click on the leave button
+    Then I should not see the group's name anymore
+
