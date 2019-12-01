@@ -8,9 +8,23 @@
   margin-top: 50px;
 }
 
+#need{
+  height: 400px;
+  overflow-y: scroll;
+}
 #group_need{
   float: left;
   width: 50%;
+}
+#user_need:after {
+  content: "";
+  background-color: #d3d3d3;
+  position: absolute;
+  width: 1px;
+  top: 150px;
+  height: 350px;
+  left: 45%;
+  display: block;
 }
 #user_need{
   float: left;
