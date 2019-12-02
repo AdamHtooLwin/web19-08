@@ -8,6 +8,11 @@ class NeedsControllerTest < ActionDispatch::IntegrationTest
     @group = groups(:one)
   end
 
+  test "should resolve need" do
+    post resolve_needs_url(params: { id: @group.id })
+    assert_redirected_to group_url(@group, params: { notice: "The needs were successfully resolved" })
+  end
+
   test "should get index" do
     get needs_url
     assert_response :success
@@ -28,6 +33,26 @@ class NeedsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to group_url(@group, params: { notice: "Need was successfully created."})
   end
 
+  test "should create duplicate and sum need" do
+    sign_in users(:one)
+
+    assert_difference('Need.count', 0) do
+      post needs_url, params: { need: { group_id: 1, item_id: "Coke", quantity: 5, user_id: 1 } }
+    end
+
+    assert_redirected_to group_url(@group)
+  end
+
+  test "should not create need" do
+    sign_in users(:one)
+
+    assert_difference('Need.count', 0) do
+      post needs_url, params: { need: { group_id: 1, item_id: "Coke", quantity: "", user_id: 1 } }
+    end
+
+    assert_redirected_to group_url(@group)
+  end
+
   test "should show need" do
     get need_url(@need)
     assert_response :success
@@ -42,7 +67,7 @@ class NeedsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     patch need_url(@need), params: { need: { group_id: "1", item_id: "2", quantity: @need.quantity, user_id: "4" } }
-    assert_response :success
+    assert_response :redirect
   end
 
   test "should destroy need" do

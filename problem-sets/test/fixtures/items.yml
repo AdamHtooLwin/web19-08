@@ -1,12 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   name: Coke
   price: 9.99
   description: MyText
   unit: kg
 
 two:
+  id: 2
   name: Pepsi
   price: 19.99
   description: MyText

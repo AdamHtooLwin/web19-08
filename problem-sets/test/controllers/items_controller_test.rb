@@ -5,6 +5,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @item = items(:one)
+    @item2 = items(:two)
     @group = groups(:one)
   end
 
@@ -16,6 +17,12 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
     get new_item_url
     assert_response :success
+  end
+
+  test "should not create item" do
+    assert_difference('Item.count', 0) do
+      post items_url, params: { group_id: @group.id, item: { description: "Other item's description", name: @item.name, price: @item.price } }
+    end
   end
 
   test "should create item" do
@@ -33,6 +40,11 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get edit" do
     get edit_item_url(@item)
+    assert_response :success
+  end
+
+  test "should not update item" do
+    patch item_url(@item), params: { item: { description: @item.description, name: @item2.name, price: @item.price } }
     assert_response :success
   end
 

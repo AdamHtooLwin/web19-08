@@ -8,6 +8,13 @@ class UserGroupsControllerTest < ActionDispatch::IntegrationTest
     @group = groups(:one)
   end
 
+  test "should leave group" do
+    sign_in users(:one)
+
+    delete leave_group_url(params: { id: @user_group.id })
+    assert_redirected_to root_url
+  end
+
   test "should get index" do
     get user_groups_url
     assert_response :success

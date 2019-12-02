@@ -28,6 +28,16 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to comment_url(Comment.last)
   end
 
+  test "should fail to create comment" do
+    sign_in users(:one)
+
+    assert_difference('Comment.count', 0) do
+      post comments_url, params: { comment: { content: "", group_id: @comment.group_id, user_id: @comment.user_id } }
+    end
+
+    assert_response :success
+  end
+
   test "should show comment" do
     get comment_url(@comment)
     assert_response :success
@@ -43,6 +53,13 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
 
     patch comment_url(@comment), params: { comment: { content: @comment.content, group_id: @comment.group_id, user_id: @comment.user_id } }
     assert_redirected_to comment_url(@comment)
+  end
+
+  test "should fail to update comment" do
+    sign_in users(:one)
+
+    put comment_url(@comment), params: { comment: { content: "", group_id: @comment.group_id, user_id: @comment.user_id } }
+    assert_response :success
   end
 
   test "should destroy comment" do

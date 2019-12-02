@@ -11,10 +11,10 @@ class Ps1Controller < ApplicationController
   def index
   end
 
-  # def divide_by_zero
-  #   logger.debug('about to divide by zero')
-  #   a=1/0
-  # end
+  def divide_by_zero
+    logger.debug('about to divide by zero')
+    a=1/0
+  end
 
   def scrapper
     require 'open-uri'
