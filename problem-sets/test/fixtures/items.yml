@@ -4,8 +4,10 @@ one:
   name: Coke
   price: 9.99
   description: MyText
+  unit: kg
 
 two:
   name: Pepsi
   price: 19.99
   description: MyText
+  unit: litres

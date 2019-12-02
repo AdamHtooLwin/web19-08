@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   post 'ps2/import_xml'
   get 'basics' => 'basics#index'
   get 'documentation' => 'documentation#index'
-  get 'get_users' => 'groups#get_users'
+  get 'get_users' => 'groups#get_users', :format => 'json'
   get 'add_users' => 'groups#add_users'
   post 'add_users' => 'groups#add_users'
   delete 'leave_group' =>'user_groups#leave'

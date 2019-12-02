@@ -10,7 +10,7 @@ class NeedsController < ApplicationController
   # GET /needs/1
   # GET /needs/1.json
   def show
-    @needs = Need.where.(status: !NIL)
+    @needs = Need.where.not(status: nil)
   end
 
   # GET /needs/new

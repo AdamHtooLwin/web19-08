@@ -5,6 +5,62 @@ class GroupsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @group = groups(:one)
+    @user = users(:two)
+    @group2 = groups(:two)
+  end
+
+  test "should fail to edit group as non group admin" do
+    sign_in users(:two)
+
+    get edit_group_url(@group2)
+
+    assert_response :redirect
+  end
+
+  test "should lock group" do
+    sign_in users(:one)
+
+    post lock_group_url(params: { id: @group.id })
+
+    assert_response :redirect
+  end
+
+  test "should unlock group" do
+    sign_in users(:one)
+
+    post unlock_group_url(params: { id: @group.id })
+
+    assert_response :redirect
+  end
+
+  test "get add users path" do
+    sign_in users(:one)
+
+    get add_users_url, params: { q: @user.id , search_user: "2", group_id: @group.id }
+
+    assert_response :redirect
+  end
+
+  test "get users path" do
+    sign_in users(:one)
+
+    get get_users_url, params: { name: "" , search_user: "1"}
+  end
+
+  test "should create a group using get users" do
+    sign_in users(:one)
+
+    get get_users_url, params: { name: "SV67", search_user: 1 }
+
+    assert_response :redirect
+  end
+
+  test "should fail to create groups" do
+    sign_in users(:one)
+
+    assert_difference('Group.count', 0) do
+      post groups_url, params: { group: { user_id: @group.user_id } }
+    end
   end
 
   test "should get index" do
